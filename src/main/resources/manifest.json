@@ -1,14 +1,13 @@
 {
-    "Group": "Example",
-    "Name": "ExamplePlugin",
-    "Version": "0.0.2",
-    "Description": "An example plugin for HyTale!",
+    "Group": "org.MoreMagicSpell",
+    "Name": "More Magic Spell",
+    "Version": "0.0.3",
+    "Description": "A plugin for hytale adding new Magic/Spell",
     "Authors": [
         {
-            "Name": "It's you!"
+            "Name": "Im404"
         }
     ],
-    "Website": "example.org",
     "ServerVersion": "*",
     "Dependencies": {
         
