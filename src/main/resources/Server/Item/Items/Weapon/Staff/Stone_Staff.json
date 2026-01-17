@@ -67,7 +67,7 @@
   ],
   "Interactions": {
     "Primary": "Root_Ice_Staff_Primary_Wrapper",
-    "Secondary": "Root_Ice_Staff_Primary_Entry"
+    "Secondary": "Root_Stone_Staff_Primary_Entry"
   },
   "InteractionVars": {
     "Staff_Cast_Summon_Cost": {

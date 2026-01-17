@@ -1,0 +1,16 @@
+{
+  "Id": "Im404:StoneWall",
+  "Components": {
+    "Transform": {},
+    "Model": {
+      "Model": "Entity/StoneWall.blockymodel"
+    },
+    "Collision": {
+      "Shape": "Box",
+      "Size": [3, 2, 0.3]
+    },
+    "Lifetime": {
+      "Duration": 6
+    }
+  }
+}
