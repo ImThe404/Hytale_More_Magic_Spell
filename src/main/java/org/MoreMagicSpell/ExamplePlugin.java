@@ -1,6 +1,7 @@
 package org.MoreMagicSpell;
 
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 
@@ -23,14 +24,7 @@ public class ExamplePlugin extends JavaPlugin {
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
         this.getCommandRegistry().registerCommand(new ExampleCommand(this.getName(), this.getManifest().getVersion().toString()));
+        this.getCodecRegistry(Interaction.CODEC).register("my_custom_interaction_id", SendMessageInteraction.class, SendMessageInteraction.CODEC);
     }
-    /* 
-    @ItemBehavior("my_mod:custom_ability")
-    public class CustomAbility implements IItemBehavior {
-        @Override
-        public void onUse(ItemUseEvent event) {
-            // Logique personnalisée
-        }
-    }*/
 
 }

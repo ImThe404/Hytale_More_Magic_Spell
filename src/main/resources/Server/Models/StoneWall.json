@@ -1,0 +1,44 @@
+{
+  "Model": "Items/Projectiles/Ice_Bolt.blockymodel",
+  "Texture": "Items/Projectiles/Ice_Bolt_Texture.png",
+  "HitBox": {
+    "Max": {
+      "X": 0.1,
+      "Y": 0.1,
+      "Z": 0.1
+    },
+    "Min": {
+      "X": -0.1,
+      "Y": -0.1,
+      "Z": -0.1
+    }
+  },
+  "MinScale": 1,
+  "MaxScale": 1,
+  "Particles": [
+    {
+      "PositionOffset": {
+        "X": 0,
+        "Y": 0,
+        "Z": 0
+      },
+      "SystemId": "Laser_Impact"
+    }
+  ],
+  "Trails": [
+    {
+      "TrailId": {
+        "TexturePath": "Trails/Basic.png",
+        "LifeSpan": 20,
+        "Start": {
+          "Width": 0.1,
+          "Color": "#71efffff"
+        },
+        "End": {
+          "Width": 1
+        },
+        "Smooth": false
+      }
+    }
+  ]
+}
