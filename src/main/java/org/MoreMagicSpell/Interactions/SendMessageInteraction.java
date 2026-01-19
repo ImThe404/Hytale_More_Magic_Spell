@@ -1,4 +1,4 @@
-package org.MoreMagicSpell;
+package org.MoreMagicSpell.Interactions;
 
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 

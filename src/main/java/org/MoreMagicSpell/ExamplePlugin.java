@@ -7,6 +7,8 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 
 import javax.annotation.Nonnull;
 
+import org.MoreMagicSpell.Interactions.SendMessageInteraction;
+
 /**
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
  * event listeners.
