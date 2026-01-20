@@ -19,7 +19,7 @@
           {
             "Interactions": [
               {
-                "Type": "my_custom_interaction_id"
+                "Type": "spawn_entity_interaction"
               }
             ]
           },
