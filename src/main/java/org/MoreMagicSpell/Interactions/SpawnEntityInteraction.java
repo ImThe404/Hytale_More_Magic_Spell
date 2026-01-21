@@ -74,7 +74,7 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
 
         Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
 
-        ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("Minecart");
+        ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("StoneWall");
         Model model = Model.createScaledModel(modelAsset, 1.0f);
 
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
