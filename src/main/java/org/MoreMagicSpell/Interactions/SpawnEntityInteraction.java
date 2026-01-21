@@ -79,7 +79,7 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
 
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
         float direction = playerTransform.getRotation().getY(); // facing direction
-        float distance = 2.0f;
+        float distance = 4.0f;
         double offsetX = -Math.sin(direction) * distance;
         double offsetZ = -Math.cos(direction) * distance;
         Vector3d wallPosition = new Vector3d(playerTransform.getPosition());
