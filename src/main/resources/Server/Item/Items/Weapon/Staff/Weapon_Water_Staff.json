@@ -66,20 +66,8 @@
     }
   ],
   "Interactions": {
-    "Primary": { 
-      "Interactions": [
-        {
-          "Type": "my_custom_interaction_id"
-        }
-      ]
-    },
-    "Secondary": { 
-      "Interactions": [
-        {
-          "Type": "my_custom_interaction_id"
-        }
-      ]
-    }
+    "Primary": "Root_Water_Staff_Primary",
+    "Secondary": "Root_Water_Staff_Secondary"
   },
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "Tags": {

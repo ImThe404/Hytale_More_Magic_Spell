@@ -1,0 +1,11 @@
+{
+  "Interactions": [
+    "Water_Staff_Secondary_Entry"
+  ],
+  "Tags": {
+    "Attack": [
+      "Ranged"
+    ]
+  },
+  "RequireNewClick": false
+}
