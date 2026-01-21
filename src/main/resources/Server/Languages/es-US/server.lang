@@ -1,7 +1,10 @@
 Example_Block.name = Example Block
 
-items.Weapon_Stone_Staff.name=Stone Staff
-items.Weapon_Stone_Staff.desc=The protector staff!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.\nConsumes 2 <item is="Ingredient_Life_Essence"/> create a shield around you.
+server.items.Weapon_Stone_Spellbook.name=Stone Weapon_Stone_Spellbook
+server.items.Weapon_Stone_Spellbook.desc=The protector staff!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.\nConsumes 2 <item is="Ingredient_Life_Essence"/> create a shield around you.
 
-items.Weapon_Stone_Spellbook.name=Stone Weapon_Stone_Spellbook
-items.Weapon_Stone_Spellbook.desc=The protector staff!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.\nConsumes 2 <item is="Ingredient_Life_Essence"/> create a shield around you.
+server.items.Weapon_Lightning_Staff.name=Lightning Staff
+server.items.Weapon_Lightning_Staff.desc=The protector staff!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.\nConsumes 2 <item is="Ingredient_Life_Essence"/> create a shield around you.
+
+server.items.Weapon_Water_Staff.name=Water Staff
+server.items.Weapon_Water_Staff.desc=The protector staff!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.\nConsumes 2 <item is="Ingredient_Life_Essence"/> create a shield around you.

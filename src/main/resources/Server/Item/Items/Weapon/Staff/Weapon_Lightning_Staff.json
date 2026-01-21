@@ -1,12 +1,12 @@
 {
   "TranslationProperties": {
-    "Name": "server.items.Weapon_Stone_Staff.name",
-    "Description": "server.items.Weapon_Stone_Staff.desc"
+    "Name": "server.items.Weapon_Lightning_Staff.name",
+    "Description": "server.items.Weapon_Lightning_Staff.desc"
   },
   "Categories": [
     "Items.Weapons"
   ],
-  "Icon": "Icons/ItemsGenerated/Stone_Staff.png",
+  "Icon": "Icons/ItemsGenerated/Weapon_Lightning_Staff.png",
   "Quality": "Rare",
   "ItemLevel": 50,
   "Recipe": {
@@ -39,8 +39,8 @@
       }
     ]
   },
-  "Model": "Items/Weapons/Staff/Stone_Staff.blockymodel",
-  "Texture": "Items/Weapons/Staff/Stone_Staff_Texture.png",
+  "Model": "Items/Weapons/Staff/Lightning_Staff.blockymodel",
+  "Texture": "Items/Weapons/Staff/Lightning_Staff_Texture.png",
   "PlayerAnimationsId": "Staff",
   "IconProperties": {
     "Scale": 0.31,

@@ -8,8 +8,8 @@
   ],
   "Quality": "Rare",
   "ItemLevel": 40,
-  "Model": "Items/Weapons/Spellbook/Book.blockymodel",
-  "Texture": "Items/Weapons/Spellbook/Spellbook_Stone_Texture.png",
+  "Model": "Items/Weapons/Spellbook/Frost.blockymodel",
+  "Texture": "Items/Weapons/Spellbook/Stone_Spellbook_Texture.png",
   "PlayerAnimationsId": "Spellbook",
   "IconProperties": {
     "Scale": 0.6,
