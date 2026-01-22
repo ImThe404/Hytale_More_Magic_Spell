@@ -66,13 +66,7 @@
     }
   ],
   "Interactions": {
-    "Primary": { 
-      "Interactions": [
-        {
-          "Type": "my_custom_interaction_id"
-        }
-      ]
-    },
+    "Primary": "Root_Lightning_Staff_Primary",
     "Secondary": { 
       "Interactions": [
         {

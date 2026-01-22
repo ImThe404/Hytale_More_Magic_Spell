@@ -49,7 +49,7 @@
                         "Yaw": -90
                       },
                       "TargetNodeName": "Handle",
-                      "SystemId": "Flamethrower"
+                      "SystemId": "Lightning"
                     }
                   ],
                   "ItemPlayerAnimationsId": "Stick",
@@ -85,12 +85,12 @@
                 "Selector": {
                   "Id": "Stab",
                   "TestLineOfSight": true,
-                  "ExtendTop": 0.175,
-                  "ExtendLeft": 0.175,
-                  "ExtendRight": 0.175,
-                  "ExtendBottom": 0.175,
+                  "ExtendTop": 5.175,
+                  "ExtendLeft": 5.175,
+                  "ExtendRight": 5.175,
+                  "ExtendBottom": 5.175,
                   "StartDistance": 0.1,
-                  "EndDistance": 5.5
+                  "EndDistance": 10.5
                 },
                 "HitEntity": {
                   "Interactions": [

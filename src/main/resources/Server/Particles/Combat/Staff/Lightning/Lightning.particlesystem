@@ -1,0 +1,30 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Lightning_Overlay_Flat",
+      "PositionOffset": {
+        "Z": -0.3
+      }
+    },
+    {
+      "SpawnerId": "Lightning_Overlay_Flat",
+      "PositionOffset": {
+        "Z": -0.3
+      }
+    },
+    {
+      "SpawnerId": "Lightning_Overlay_Flat",
+      "PositionOffset": {
+        "Z": -0.3
+      }
+    },
+    {
+      "SpawnerId": "Lightning_Glow_Start",
+      "PositionOffset": {
+        "Z": 2.0
+      }
+    }
+  ],
+  "CullDistance": 100.0,
+  "IsImportant": false
+}
