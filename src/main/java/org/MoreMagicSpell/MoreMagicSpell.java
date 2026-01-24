@@ -19,15 +19,15 @@ import org.MoreMagicSpell.Interactions.PetrifiedEntityInteraction;
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
  * event listeners.
  */
-public class ExamplePlugin extends JavaPlugin {
+public class MoreMagicSpell extends JavaPlugin {
 
-    private static ExamplePlugin instance;
+    private static MoreMagicSpell instance;
 
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private ComponentType<EntityStore, PetrifiedComponent> PetrifiedComponentType;
 
-    public ExamplePlugin(@Nonnull JavaPluginInit init) {
+    public MoreMagicSpell(@Nonnull JavaPluginInit init) {
         super(init);
         instance = this;
         LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
@@ -52,6 +52,7 @@ public class ExamplePlugin extends JavaPlugin {
 
         // Register Systems
         this.getEntityStoreRegistry().registerSystem(new PetrifiedSystem(this.PetrifiedComponentType));
+
     }
 
     @Override
@@ -65,7 +66,7 @@ public class ExamplePlugin extends JavaPlugin {
         return PetrifiedComponentType;
     }
 
-    public static ExamplePlugin get() {
+    public static MoreMagicSpell get() {
         return instance;
     }
 

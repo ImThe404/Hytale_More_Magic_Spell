@@ -16,6 +16,6 @@
         
     },
     "DisabledByDefault": false,
-    "Main": "org.MoreMagicSpell.ExamplePlugin",
+    "Main": "org.MoreMagicSpell.MoreMagicSpell",
     "IncludesAssetPack": true
 }

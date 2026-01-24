@@ -5,6 +5,7 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -16,9 +17,11 @@ import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.ModelTrail;
 import com.hypixel.hytale.protocol.Phobia;
+import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
+import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -33,14 +36,17 @@ import com.hypixel.hytale.server.core.modules.entity.component.RespondToHit;
 import com.hypixel.hytale.server.core.modules.entity.component.SnapshotBuffer;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import com.hypixel.hytale.server.core.modules.entity.component.ActiveAnimationComponent;
-
+import com.hypixel.hytale.server.core.modules.entity.component.AudioComponent;
 
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.interaction.Interactions;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.modules.physics.component.PhysicsValues;
+import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
@@ -49,7 +55,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import org.MoreMagicSpell.ExamplePlugin;
+import org.MoreMagicSpell.MoreMagicSpell;
 import org.MoreMagicSpell.Components.PetrifiedComponent;
 
 public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
@@ -158,6 +164,41 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         target,
         ModelComponent.getComponentType(),
         new ModelComponent(stoneModel));
-    
+
+        World world = commandBuffer.getExternalData().getWorld();
+        /* 
+        IntList l = new IntArrayList();
+        l.add(index);
+
+        commandBuffer.addComponent(
+        target,
+        AudioComponent.getComponentType(),
+        new AudioComponent(l));
+            */
+        /* 
+
+        // Play sound effect to player
+        int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); 
+        world.execute(() -> {
+            TransformComponent transform = store.getComponent(target, EntityModule.get().getTransformComponentType());
+            SoundUtil.playSoundEvent3d(target, index, transform.getPosition(), store);
+        });
+
+        */
+        int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); 
+        AudioComponent audio = store.getComponent(
+            target,
+            AudioComponent.getComponentType()
+        );
+        if (audio == null) {
+            audio = new AudioComponent();
+            commandBuffer.addComponent(
+                target,
+                AudioComponent.getComponentType(),
+                audio
+            );
+        }
+        audio.addSound(index);
+
     }
 }

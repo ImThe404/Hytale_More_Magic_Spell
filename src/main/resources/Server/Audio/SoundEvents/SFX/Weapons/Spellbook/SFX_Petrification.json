@@ -1,0 +1,18 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/Weapons/Spellbook/Petrification.ogg"
+      ],
+      "RandomSettings": {
+        "MinVolume": -2,
+        "MinPitch": -2,
+        "MaxPitch": 2
+      },
+      "Looping": true,
+      "Volume": -10,
+      "PreventSoundInterruption": true,
+      "Parent": "SFX_Attn_Moderate"
+    }
+  ]
+}

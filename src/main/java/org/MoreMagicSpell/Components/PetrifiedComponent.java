@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
-import org.MoreMagicSpell.ExamplePlugin;
+import org.MoreMagicSpell.MoreMagicSpell;
 
 public class PetrifiedComponent implements Component<EntityStore> {
 
@@ -64,7 +64,7 @@ public class PetrifiedComponent implements Component<EntityStore> {
 
     @Nonnull
     public static ComponentType<EntityStore, PetrifiedComponent> getComponentType() {
-        return ExamplePlugin.get().getPetrifiedComponentType();
+        return MoreMagicSpell.get().getPetrifiedComponentType();
     }
 
     public long getEndTime() { return endTime; }
