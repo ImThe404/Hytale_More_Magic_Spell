@@ -9,9 +9,11 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 
-import org.MoreMagicSpell.HolderType.HealthComponent;
 import org.MoreMagicSpell.Interactions.SendMessageInteraction;
 import org.MoreMagicSpell.Interactions.SpawnEntityInteraction;
+import org.MoreMagicSpell.Systems.PetrifiedSystem;
+import org.MoreMagicSpell.Components.PetrifiedComponent;
+import org.MoreMagicSpell.Interactions.PetrifiedEntityInteraction;
 
 /**
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
@@ -23,7 +25,7 @@ public class ExamplePlugin extends JavaPlugin {
 
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    private ComponentType<EntityStore, HealthComponent> healthComponentType;
+    private ComponentType<EntityStore, PetrifiedComponent> PetrifiedComponentType;
 
     public ExamplePlugin(@Nonnull JavaPluginInit init) {
         super(init);
@@ -35,15 +37,21 @@ public class ExamplePlugin extends JavaPlugin {
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
         this.getCommandRegistry().registerCommand(new ExampleCommand(this.getName(), this.getManifest().getVersion().toString()));
+
+        // Register Interactions
         this.getCodecRegistry(Interaction.CODEC).register("my_custom_interaction_id", SendMessageInteraction.class, SendMessageInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("petrified_entity_interaction", PetrifiedEntityInteraction.class, PetrifiedEntityInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("spawn_entity_interaction", SpawnEntityInteraction.class, SpawnEntityInteraction.CODEC);
         
         // Register Components
-        healthComponentType = getEntityStoreRegistry().registerComponent(
-            HealthComponent.class,
-            "Health",
-            HealthComponent.CODEC
+        PetrifiedComponentType = getEntityStoreRegistry().registerComponent(
+            PetrifiedComponent.class,
+            "Petrified",
+            PetrifiedComponent.CODEC
         );
+
+        // Register Systems
+        this.getEntityStoreRegistry().registerSystem(new PetrifiedSystem(this.PetrifiedComponentType));
     }
 
     @Override
@@ -53,8 +61,8 @@ public class ExamplePlugin extends JavaPlugin {
 
 
     // Acces to component types
-    public ComponentType<EntityStore, HealthComponent> getHealthComponentType() {
-        return healthComponentType;
+    public ComponentType<EntityStore, PetrifiedComponent> getPetrifiedComponentType() {
+        return PetrifiedComponentType;
     }
 
     public static ExamplePlugin get() {

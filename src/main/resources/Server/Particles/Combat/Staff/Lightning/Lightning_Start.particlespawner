@@ -38,7 +38,7 @@
           }
         },
         "Opacity": 0.0,
-        "Color": "#ffe92f"
+        "Color": "#a9d8ff"
       },
       "20": {
         "Opacity": 1.0
@@ -56,7 +56,7 @@
             "Max": 1.5
           }
         },
-        "Color": "#ffa45a"
+        "Color": "#fff9f4"
       }
     },
     "InitialAnimationFrame": {

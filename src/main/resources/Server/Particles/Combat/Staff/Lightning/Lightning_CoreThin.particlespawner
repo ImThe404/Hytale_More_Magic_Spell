@@ -38,18 +38,18 @@
           }
         },
         "Opacity": 0.0,
-        "Color": "#ffe92f"
+        "Color": "#64a7ff"
       },
       "20": {
         "Opacity": 1.0,
-        "Color": "#ffe92f"
+        "Color": "#a4d3ff"
       },
       "80": {
         "Opacity": 0.7
       },
       "100": {
         "Opacity": 0.0,
-        "Color": "#ff553b",
+        "Color": "#ffffff",
         "Scale": {
           "X": {
             "Min": 1.0,

@@ -22,6 +22,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.BoundingBox;
+import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.Interactable;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
@@ -32,10 +33,6 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-
-import org.MoreMagicSpell.HolderType.HealthComponent;
-import org.MoreMagicSpell.HolderType.PositionComponent;
-import org.MoreMagicSpell.HolderType.VelocityComponent;
 
 public class SpawnEntityInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<SpawnEntityInteraction> CODEC = BuilderCodec.builder(
@@ -78,7 +75,8 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
         Model model = Model.createScaledModel(modelAsset, 1.0f);
 
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
-        float direction = playerTransform.getRotation().getY(); // facing direction
+        HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
+        float direction = headRotation.getRotation().getY(); // facing direction
         float distance = 4.0f;
         double offsetX = -Math.sin(direction) * distance;
         double offsetZ = -Math.cos(direction) * distance;
@@ -90,7 +88,7 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
                 offsetZ
             )
         );
-        TransformComponent wallTransform = new TransformComponent(wallPosition, playerTransform.getRotation());
+        TransformComponent wallTransform = new TransformComponent(wallPosition, headRotation.getRotation());
 
         holder.addComponent(TransformComponent.getComponentType(), wallTransform);
         holder.addComponent(PersistentModel.getComponentType(), new PersistentModel(model.toReference()));

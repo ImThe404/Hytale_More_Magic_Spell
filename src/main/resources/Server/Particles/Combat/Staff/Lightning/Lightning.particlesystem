@@ -1,19 +1,19 @@
 {
   "Spawners": [
     {
-      "SpawnerId": "Lightning_Overlay_Flat",
+      "SpawnerId": "Lightning_Overlay_Flat_Small",
       "PositionOffset": {
         "Z": -0.3
       }
     },
     {
-      "SpawnerId": "Lightning_Overlay_Flat",
+      "SpawnerId": "Lightning_Overlay_Flat_Medium",
       "PositionOffset": {
         "Z": -0.3
       }
     },
     {
-      "SpawnerId": "Lightning_Overlay_Flat",
+      "SpawnerId": "Lightning_Overlay_Flat_Big",
       "PositionOffset": {
         "Z": -0.3
       }
@@ -23,6 +23,22 @@
       "PositionOffset": {
         "Z": 2.0
       }
+    },
+    {
+      "SpawnerId": "Lightning_CoreThin",
+      "PositionOffset": {
+        "Z": 0.5
+      }
+    },
+    {
+      "SpawnerId": "Lightning_Start",
+      "PositionOffset": {
+        "Z": 2.0
+      }
+    },
+    {
+      "SpawnerId": "Lightning_Sparks",
+      "FixedRotation": false
     }
   ],
   "CullDistance": 100.0,

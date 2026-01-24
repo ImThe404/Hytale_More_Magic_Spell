@@ -64,7 +64,7 @@
         "Opacity": 1.0
       },
       "10": {
-        "Color": "#ffe79a"
+        "Color": "#ffffff"
       },
       "20": {
         "Opacity": 1.0,
@@ -90,11 +90,11 @@
             "Max": 0.3
           }
         },
-        "Color": "#fe9c43",
+        "Color": "#fffee9",
         "Opacity": 1.0
       },
       "100": {
-        "Color": "#e8411b",
+        "Color": "#ffffec",
         "Opacity": 0.0
       }
     },
@@ -122,13 +122,13 @@
   "Shape": "Sphere",
   "EmitOffset": {
     "X": {
-      "Max": 0.1
+      "Max": 2.1
     },
     "Y": {
-      "Max": 0.1
+      "Max": 2.1
     },
     "Z": {
-      "Max": 2.0
+      "Max": 3.0
     }
   },
   "Attractors": [
