@@ -11,17 +11,21 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
+import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
+import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset.Animation;
+import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset.AnimationSet;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
+import com.hypixel.hytale.server.core.modules.entity.component.ActiveAnimationComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.AudioComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.BoundingBox;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
@@ -86,7 +90,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
 
         ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("StoneWall");
         Model model = Model.createScaledModel(modelAsset, 1.0f);
-        LOGGER.atInfo().log("Animation Set : " + modelAsset.getAnimationSetMap());
+        LOGGER.atInfo().log("Animation Set : " + modelAsset.getAnimationSetMap()); // J'ai bien l'animation "Spawn" dans la liste qui a un fichier d'animation et un son associés
 
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
         HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
@@ -104,26 +108,23 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         );
         Vector3f wallRotation = new Vector3f(0, direction, 0); // align wall to face player
         TransformComponent wallTransform = new TransformComponent(wallPosition, wallRotation);
-        AudioComponent audioComponent = new AudioComponent();
-        audioComponent.addSound(SoundEvent.getAssetMap().getIndex("SFX_Stone_Wall_Spawning"));
 
         holder.addComponent(TransformComponent.getComponentType(), wallTransform);
         holder.addComponent(PersistentModel.getComponentType(), new PersistentModel(model.toReference()));
         holder.addComponent(ModelComponent.getComponentType(), new ModelComponent(model));
         holder.addComponent(BoundingBox.getComponentType(), new BoundingBox(model.getBoundingBox()));
         holder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
-        //holder.addComponent(BoundingBox.getComponentType(), new BoundingBox(model.getBoundingBox()));
-        holder.addComponent(AudioComponent.getComponentType(), audioComponent);
-        // add componant for anime spawn
-        // add compnnent for delay before despawn and anime despawn 
-        //holder.addComponent(Interactions.getComponentType(), new Interactions()); // you need to add interactions here if you want your entity to be interactable
 
-        holder.ensureComponent(UUIDComponent.getComponentType());
-        //holder.ensureComponent(Interactable.getComponentType()); // if you want your entity to be interactable
+        AnimationSet spawnAnimationset = modelAsset.getAnimationSetMap().get("Spawn");
+        ActiveAnimationComponent activeAnimationComponent = new ActiveAnimationComponent();
+        holder.addComponent(ActiveAnimationComponent.getComponentType(), activeAnimationComponent);
 
         world.execute(() -> {
             store.addEntity(holder, AddReason.SPAWN);
+            activeAnimationComponent.setPlayingAnimation(AnimationSlot.Action, "Spawn");
         });
+
+
 
         /* 
         "SFX_Stone_Wall_Spawning"); 
