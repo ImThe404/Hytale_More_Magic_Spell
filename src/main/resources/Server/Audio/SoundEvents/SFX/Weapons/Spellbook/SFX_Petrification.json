@@ -10,7 +10,7 @@
         "MaxPitch": 2
       },
       "Looping": true,
-      "Volume": -10,
+      "Volume": -15,
       "PreventSoundInterruption": true,
       "Parent": "SFX_Attn_Moderate"
     }

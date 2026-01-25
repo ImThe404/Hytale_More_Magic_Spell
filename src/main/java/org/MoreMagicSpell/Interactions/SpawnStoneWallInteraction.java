@@ -16,11 +16,13 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
+import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
+import com.hypixel.hytale.server.core.modules.entity.component.AudioComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.BoundingBox;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.Interactable;
@@ -31,12 +33,23 @@ import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.interaction.Interactions;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
-public class SpawnEntityInteraction extends SimpleInstantInteraction {
-    public static final BuilderCodec<SpawnEntityInteraction> CODEC = BuilderCodec.builder(
-            SpawnEntityInteraction.class, SpawnEntityInteraction::new, SimpleInstantInteraction.CODEC
+import com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionAppearance;
+import com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionPlayAnimation;
+import com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionPlaySound;
+import com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionSpawnParticles;
+
+import com.hypixel.hytale.server.npc.animations.*;
+import com.hypixel.hytale.server.npc.corecomponents.audiovisual.builders.BuilderActionPlayAnimation;
+
+import com.hypixel.hytale.Main;
+
+public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
+    public static final BuilderCodec<SpawnStoneWallInteraction> CODEC = BuilderCodec.builder(
+            SpawnStoneWallInteraction.class, SpawnStoneWallInteraction::new, SimpleInstantInteraction.CODEC
     ).build();
 
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -73,6 +86,7 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
 
         ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("StoneWall");
         Model model = Model.createScaledModel(modelAsset, 1.0f);
+        LOGGER.atInfo().log("Animation Set : " + modelAsset.getAnimationSetMap());
 
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
         HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
@@ -88,13 +102,18 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
                 offsetZ
             )
         );
-        TransformComponent wallTransform = new TransformComponent(wallPosition, headRotation.getRotation());
+        Vector3f wallRotation = new Vector3f(0, direction, 0); // align wall to face player
+        TransformComponent wallTransform = new TransformComponent(wallPosition, wallRotation);
+        AudioComponent audioComponent = new AudioComponent();
+        audioComponent.addSound(SoundEvent.getAssetMap().getIndex("SFX_Stone_Wall_Spawning"));
 
         holder.addComponent(TransformComponent.getComponentType(), wallTransform);
         holder.addComponent(PersistentModel.getComponentType(), new PersistentModel(model.toReference()));
         holder.addComponent(ModelComponent.getComponentType(), new ModelComponent(model));
         holder.addComponent(BoundingBox.getComponentType(), new BoundingBox(model.getBoundingBox()));
         holder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
+        //holder.addComponent(BoundingBox.getComponentType(), new BoundingBox(model.getBoundingBox()));
+        holder.addComponent(AudioComponent.getComponentType(), audioComponent);
         // add componant for anime spawn
         // add compnnent for delay before despawn and anime despawn 
         //holder.addComponent(Interactions.getComponentType(), new Interactions()); // you need to add interactions here if you want your entity to be interactable
@@ -106,39 +125,14 @@ public class SpawnEntityInteraction extends SimpleInstantInteraction {
             store.addEntity(holder, AddReason.SPAWN);
         });
 
-        player.sendMessage(Message.raw("You have used the custom item +" + itemStack.getItemId()));
-
         /* 
-
-        // Get the EntityStore from a world, then get the underlying Store
-        EntityStore entityStore = world.getEntityStore();
-        Store<EntityStore> Estore = entityStore.getStore();
-
-        // Create an entity using a Holder
-        Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
-        holder.addComponent(PositionComponenttype, new PositionComponent(0, 64, 0));
-        holder.addComponent(VelocityComponenttype, new VelocityComponent());
-        holder.addComponent(getHealthComponentType(), new HealthComponent(100));
-
-        Ref<EntityStore> entity = Estore.addEntity(holder, AddReason.SPAWN);
-
-        // Get a component from an entity using ComponentType (not Class)
-        PositionComponent pos = Estore.getComponent(entity, positionType);
-
-        // Iterate over entities with specific components using forEachChunk
-        Estore.forEachChunk(positionType, (archetypeChunk, commandBuffer) -> {
-            for (int i = 0; i < archetypeChunk.size(); i++) {
-                Ref<EntityStore> ref = archetypeChunk.getReferenceTo(i);
-                PositionComponent position = archetypeChunk.getComponent(i, positionType);
-                VelocityComponent velocity = archetypeChunk.getComponent(i, velocityType);
-                if (position != null && velocity != null) {
-                    // Process entities with both components
-                    position.add(velocity);
-                }
-            }
+        "SFX_Stone_Wall_Spawning"); 
+        world.execute(() -> {
+            TransformComponent transform = store.getComponent(ref, EntityModule.get().getTransformComponentType());
+            SoundUtil.playSoundEvent3d(ref, index, transform.getPosition(), store);
         });
-
         */
+
 
     }
     

@@ -175,16 +175,16 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         AudioComponent.getComponentType(),
         new AudioComponent(l));
             */
-        /* 
-
-        // Play sound effect to player
+         
+/*
+        // Play sound effect to around player
         int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); 
         world.execute(() -> {
             TransformComponent transform = store.getComponent(target, EntityModule.get().getTransformComponentType());
             SoundUtil.playSoundEvent3d(target, index, transform.getPosition(), store);
         });
-
         */
+        
         int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); 
         AudioComponent audio = store.getComponent(
             target,
@@ -199,6 +199,7 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
             );
         }
         audio.addSound(index);
+        
 
     }
 }

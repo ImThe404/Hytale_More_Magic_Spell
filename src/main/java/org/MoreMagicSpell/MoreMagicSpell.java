@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import javax.annotation.Nonnull;
 
 import org.MoreMagicSpell.Interactions.SendMessageInteraction;
-import org.MoreMagicSpell.Interactions.SpawnEntityInteraction;
+import org.MoreMagicSpell.Interactions.SpawnStoneWallInteraction;
 import org.MoreMagicSpell.Systems.PetrifiedSystem;
 import org.MoreMagicSpell.Components.PetrifiedComponent;
 import org.MoreMagicSpell.Interactions.PetrifiedEntityInteraction;
@@ -41,7 +41,7 @@ public class MoreMagicSpell extends JavaPlugin {
         // Register Interactions
         this.getCodecRegistry(Interaction.CODEC).register("my_custom_interaction_id", SendMessageInteraction.class, SendMessageInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("petrified_entity_interaction", PetrifiedEntityInteraction.class, PetrifiedEntityInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("spawn_entity_interaction", SpawnEntityInteraction.class, SpawnEntityInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("spawn_entity_interaction", SpawnStoneWallInteraction.class, SpawnStoneWallInteraction.CODEC);
         
         // Register Components
         PetrifiedComponentType = getEntityStoreRegistry().registerComponent(
