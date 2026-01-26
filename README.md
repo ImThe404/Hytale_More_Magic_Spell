@@ -1,13 +1,9 @@
 # Hytale Example Plugin
 
-An example project that can build and run plugins for the game Hytale!
-
 > **⚠️ Warning: Early Access**    
 > The game Hytale is in early access, and so is this project! Features may be
 > incomplete, unstable, or change frequently. Please be patient and understanding as development
 > continues.
-
-# More Magic Spells
 
 More Magic Spells is a **work-in-progress Hytale mod** focused on adding advanced magical spells with strong gameplay impact and new mechanic, using Hytale’s ECS architecture.
 
@@ -37,7 +33,7 @@ A spell that summon a wall for a few seconds that :
 - Have a collision that stop all entity and attacks
 - Can or Cannot be destroy (To be decided)
 
-*(Screenshots / GIFs here when i have them)*
+![](/media/StoneWall.gif)
 
 ### 🗿 Petrification (Work In Progress)
 
@@ -49,7 +45,7 @@ A spell that temporarily turns an entity into stone, which for the duration of t
 - Suppresses his animations
 - Turn his texture into a stone texture
 
-*(Screenshots / GIFs here when i have them)*
+![](/media/Petrification.gif)
 
 ### ⚡ Lightning Spear (Work In Progress)
 
@@ -60,7 +56,7 @@ A spell that temporarily create a lightning ball in front of the player :
 - Make AOE Damage
 - Use a lot of particule from particuler spawner file
 
-*(Screenshots / GIFs here when i have them)*
+*(GIF will come later)*
 
 ---
 

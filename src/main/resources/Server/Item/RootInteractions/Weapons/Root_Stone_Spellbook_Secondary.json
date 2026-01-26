@@ -1,7 +1,5 @@
 {
   "Interactions": [
-    {
-      "Type": "petrified_entity_interaction"
-    }
+    "Stone_Spellbook_Secondary_Check"
   ]
 }

@@ -49,8 +49,6 @@ import com.hypixel.hytale.server.npc.corecomponents.audiovisual.ActionSpawnParti
 import com.hypixel.hytale.server.npc.animations.*;
 import com.hypixel.hytale.server.npc.corecomponents.audiovisual.builders.BuilderActionPlayAnimation;
 
-import com.hypixel.hytale.Main;
-
 public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<SpawnStoneWallInteraction> CODEC = BuilderCodec.builder(
             SpawnStoneWallInteraction.class, SpawnStoneWallInteraction::new, SimpleInstantInteraction.CODEC
@@ -61,6 +59,9 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
     @Override
     protected void firstRun(@NonNullDecl InteractionType interactionType, @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
         CommandBuffer<EntityStore> commandBuffer = interactionContext.getCommandBuffer();
+
+        LOGGER.atInfo().log("SpawnStoneWallInteraction firstRun called");
+
         if (commandBuffer == null) {
             interactionContext.getState().state = InteractionState.Failed;
             LOGGER.atInfo().log("CommandBuffer is null");
@@ -115,15 +116,19 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         holder.addComponent(BoundingBox.getComponentType(), new BoundingBox(model.getBoundingBox()));
         holder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
 
-        AnimationSet spawnAnimationset = modelAsset.getAnimationSetMap().get("Spawn");
+        //AnimationSet spawnAnimationset = modelAsset.getAnimationSetMap().get("Spawn");
         ActiveAnimationComponent activeAnimationComponent = new ActiveAnimationComponent();
         holder.addComponent(ActiveAnimationComponent.getComponentType(), activeAnimationComponent);
+        
 
-        world.execute(() -> {
+        world.execute(() -> {   
             store.addEntity(holder, AddReason.SPAWN);
             activeAnimationComponent.setPlayingAnimation(AnimationSlot.Action, "Spawn");
         });
 
+        //once the entity is added, put it at the correct position
+        //wallPosition.setY(wallPosition.getY() + 208); // move wall up to ground level
+        //wallTransform.setPosition(wallPosition);
 
 
         /* 
