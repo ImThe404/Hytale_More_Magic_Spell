@@ -1,5 +1,5 @@
 {
-  "Model": "Items/Spawnables/StoneWall.blockymodel",
+  "Model": "Items/Spawnables/Models/StoneWall.blockymodel",
   "Texture": "NPC/Textures/Petrified.png",
   "HitBox": {
     "Max": {
@@ -19,9 +19,9 @@
     "Spawn": {
       "Animations": [
         {
-          "Animation": "NPC/Animations/Default/SpawnWall.blockyanim",
+          "Animation": "Items/Spawnables/Animations/Default/SpawnWall.blockyanim",
           "Looping": false,
-          "SoundEventId": "SFX_Bear_Grizzly_Alerted2",
+          "SoundEventId": "SFX_WallSpawning",
           "Speed": 1.0
         }
       ]

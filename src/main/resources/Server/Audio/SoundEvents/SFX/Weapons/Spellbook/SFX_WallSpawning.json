@@ -2,17 +2,16 @@
   "Layers": [
     {
       "Files": [
-        "Sounds/Weapons/Spellbook/Stone_Wall_Spawning.ogg"
+        "Sounds/Weapons/Spellbook/Stone_WallSpawning.ogg"
       ],
       "RandomSettings": {
-        "MinVolume": -2,
         "MinPitch": -2,
-        "MaxPitch": 2
+        "MaxPitch": 0,
+        "MinVolume": -2
       }
     }
   ],
-  "Looping": true,
-  "Volume": -15,
+  "Volume": -8.0,
   "PreventSoundInterruption": true,
   "Parent": "SFX_Attn_Moderate"
 }
