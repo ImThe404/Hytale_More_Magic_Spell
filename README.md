@@ -1,4 +1,4 @@
-# Hytale Example Plugin
+# More Magic Spells
 
 > **⚠️ Warning: Early Access**    
 > The game Hytale is in early access, and so is this project! Features may be

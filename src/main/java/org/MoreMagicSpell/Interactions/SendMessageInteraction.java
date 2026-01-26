@@ -16,8 +16,11 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
-import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+
+/**
+ * Simple Interaction that sends a message to the player when used. Useful for Debugging for now.
+ */
 public class SendMessageInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<SendMessageInteraction> CODEC = BuilderCodec.builder(
             SendMessageInteraction.class, SendMessageInteraction::new, SimpleInstantInteraction.CODEC
@@ -27,15 +30,17 @@ public class SendMessageInteraction extends SimpleInstantInteraction {
 
     @Override
     protected void firstRun(@NonNullDecl InteractionType interactionType, @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
+        
+        // Get CommandBuffer
         CommandBuffer<EntityStore> commandBuffer = interactionContext.getCommandBuffer();
+
+        // Verfication Checks for CommandBuffer, Player, and ItemStack
         if (commandBuffer == null) {
             interactionContext.getState().state = InteractionState.Failed;
             LOGGER.atInfo().log("CommandBuffer is null");
             return;
         }
-
-        World world = commandBuffer.getExternalData().getWorld(); // just to show how to get the world if needed
-        Store<EntityStore> store = commandBuffer.getExternalData().getStore(); // just to show how to get the store if needed
+        Store<EntityStore> store = commandBuffer.getExternalData().getStore(); 
         Ref<EntityStore> ref = interactionContext.getEntity();
         Player player = commandBuffer.getComponent(ref, Player.getComponentType());
         if (player == null) {
@@ -43,7 +48,6 @@ public class SendMessageInteraction extends SimpleInstantInteraction {
             LOGGER.atInfo().log("Player is null");
             return;
         }
-
         ItemStack itemStack = interactionContext.getHeldItem();
         if (itemStack == null) {
             interactionContext.getState().state = InteractionState.Failed;
@@ -51,6 +55,7 @@ public class SendMessageInteraction extends SimpleInstantInteraction {
             return;
         }
 
+        // Send message to player for Debugging IN-GAME
         player.sendMessage(Message.raw("You have used the custom item +" + itemStack.getItemId()));
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
         player.sendMessage(Message.raw(" PlayerRotation : " + playerTransform.getRotation().getY() ));
