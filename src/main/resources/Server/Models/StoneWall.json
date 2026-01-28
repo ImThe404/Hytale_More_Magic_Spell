@@ -3,9 +3,9 @@
   "Texture": "NPC/Textures/Petrified.png",
   "HitBox": {
     "Max": {
-      "X": 0.14,
-      "Y": 0.45,
-      "Z": 0.14
+      "X": 0.01,
+      "Y": 0.01,
+      "Z": 0.01
     },
     "Min": {
       "X": -0.14,
