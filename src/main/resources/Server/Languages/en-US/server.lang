@@ -8,3 +8,4 @@ items.Weapon_Lightning_Staff.desc=The protector staff!\n\nConsumes 5 <item is="I
 items.Weapon_Water_Staff.name=Water Staff
 items.Weapon_Water_Staff.desc=The protector staff!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.\nConsumes 2 <item is="Ingredient_Life_Essence"/> create a shield around you.
 
+items.InvisibleBlock.name=InvisibleBlock
