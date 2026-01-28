@@ -17,9 +17,11 @@ import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.AnimationSlot;
+import com.hypixel.hytale.protocol.BlockMaterial;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
 import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -109,6 +111,59 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         wallPosition = new Vector3d(((int)wallPosition.x)+0.5, (int)wallPosition.y, ((int)wallPosition.z)+0.5); // Center wall on block grid
         Vector3f wallRotation = new Vector3f(0, direction, 0); // align wall to face player
         TransformComponent wallTransform = new TransformComponent(wallPosition, wallRotation); // Make TransformComponent for wall
+        
+        Vector3i centerOfWall = new Vector3i(
+            (int) Math.floor(wallPosition.x),
+            (int) Math.floor(wallPosition.y),
+            (int) Math.floor(wallPosition.z)
+        );
+
+        BlockType blocInfo = world.getBlockType(centerOfWall);; // Type of block where the wall will be spawned
+        int decale = 1;
+        int maxChecks = 5;
+        // Check for empty space to spawn wall, if not found, move further away in facing
+        BlockMaterial empty = BlockMaterial.Empty;
+        if (blocInfo.getMaterial().equals(empty)) {
+            // If empty, check under for solid ground
+            LOGGER.atInfo().log("Spawned wall in empty space");
+            while (maxChecks > 0) {
+                Vector3i belowPos = new Vector3i(
+                    centerOfWall.x,
+                    centerOfWall.y - decale,
+                    centerOfWall.z
+                );
+                BlockType belowBlock = world.getBlockType(belowPos);
+                if (!belowBlock.getMaterial().equals(empty)) {
+                    // Found solid ground below
+                    wallTransform.getPosition().y -= decale - 1; // Move wall down to be on solid ground
+                    centerOfWall.y -= decale - 1;
+                    break;
+                }
+                decale += 1;
+                maxChecks -= 1;
+            }
+        } else {
+            // If solid, check above for empty space 
+            LOGGER.atInfo().log("Warning: Spawning wall in non-empty space");
+            while (maxChecks > 0) {
+                Vector3i abovePos = new Vector3i(
+                    centerOfWall.x,
+                    centerOfWall.y + decale,
+                    centerOfWall.z
+                );
+                BlockType aboveBlock = world.getBlockType(abovePos);
+                if (aboveBlock.getMaterial().equals(empty)) {
+                    // Found empty space above
+                    wallTransform.getPosition().y += decale; // Move wall up to be in empty space
+                    centerOfWall.y += decale;
+                    break;
+                }
+                decale += 1;
+                maxChecks -= 1;
+            }
+        }
+        
+        
         // Add Components to Entity Holder for the Stone Wall
         holder.addComponent(TransformComponent.getComponentType(), wallTransform);
         holder.addComponent(PersistentModel.getComponentType(), new PersistentModel(model.toReference()));
@@ -120,15 +175,10 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         ActiveAnimationComponent activeAnimationComponent = new ActiveAnimationComponent();
         holder.addComponent(ActiveAnimationComponent.getComponentType(), activeAnimationComponent);
 
+
         // Create Collision Shape based on Wallshape
         this.CreateShape();
         List<Vector2i> Wallshape = this.getShape(direction);
-        Vector3i centerOfWall = new Vector3i(
-            (int) Math.floor(wallPosition.x),
-            (int) Math.floor(wallPosition.y),
-            (int) Math.floor(wallPosition.z)
-        );
-        player.sendMessage(Message.raw("Block List : " + Wallshape));
         for (Vector2i v : Wallshape) { // For each position in the wall shape
             for (int y_add = 0 ; y_add < 3 ; y_add++) { // Wall height of 3 blocks
                 Vector3i blockPos = new Vector3i(
