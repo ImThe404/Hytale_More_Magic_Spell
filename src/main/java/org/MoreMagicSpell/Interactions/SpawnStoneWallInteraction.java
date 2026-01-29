@@ -118,12 +118,12 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
             (int) Math.floor(wallPosition.z)
         );
 
-        BlockType blocInfo = world.getBlockType(centerOfWall);; // Type of block where the wall will be spawned
+        BlockType wallSpawnBlockPos = world.getBlockType(centerOfWall);; // Type of block where the wall will be spawned
         int decale = 1;
         int maxChecks = 5;
         // Check for empty space to spawn wall, if not found, move further away in facing
         BlockMaterial empty = BlockMaterial.Empty;
-        if (blocInfo.getMaterial().equals(empty)) {
+        if (wallSpawnBlockPos.getMaterial().equals(empty)) {
             // If empty, check under for solid ground
             LOGGER.atInfo().log("Spawned wall in empty space");
             while (maxChecks > 0) {
@@ -186,11 +186,13 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
                     centerOfWall.y + y_add,
                     centerOfWall.z + v.y
                 );
-                world.setBlock(
+                if (world.getBlockType(blockPos).getMaterial() == BlockMaterial.Empty) { // Only set block if space is empty, otherwise leave existing block
+                    world.setBlock(
                     blockPos.x,
                     blockPos.y,
                     blockPos.z,
                     "InvisibleBlock"); // Set block to invisible block for collision only
+                }
             }
         }
         
