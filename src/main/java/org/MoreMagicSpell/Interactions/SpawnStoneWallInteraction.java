@@ -3,8 +3,10 @@ package org.MoreMagicSpell.Interactions;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.MoreMagicSpell.Components.StoneWallComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
+import com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.Vector3;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -38,6 +40,18 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+
+/*
+TO DO
+
+Time limit on wall duration before disappearing
+Animation on Despawn
+If can't find space to spawn wall, give message to player and cancel interaction
+
+*/
+
+
+
 
 /**
  * Interaction that spawns a stone wall entity in front of the player when used.
@@ -162,6 +176,14 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
                 maxChecks -= 1;
             }
         }
+        if (   !(world.getBlockType(centerOfWall).getMaterial().equals(BlockMaterial.Empty) 
+            && world.getBlockType(new Vector3i(centerOfWall.x, centerOfWall.y - 1, centerOfWall.z)).getMaterial().equals(BlockMaterial.Solid))) {
+            // Could not find suitable space to spawn wall
+            interactionContext.getState().state = InteractionState.Failed;
+            LOGGER.atInfo().log("Failed to find suitable space to spawn wall");
+            player.sendMessage(Message.raw("Stone Wall could not find space to spawn!"));
+            return;
+        }
         
         
         // Add Components to Entity Holder for the Stone Wall
@@ -179,6 +201,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         // Create Collision Shape based on Wallshape
         this.CreateShape();
         List<Vector2i> Wallshape = this.getShape(direction);
+        List<Vector3i> invisibleBlockPositions = new ArrayList<>();
         for (Vector2i v : Wallshape) { // For each position in the wall shape
             for (int y_add = 0 ; y_add < 3 ; y_add++) { // Wall height of 3 blocks
                 Vector3i blockPos = new Vector3i(
@@ -186,6 +209,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
                     centerOfWall.y + y_add,
                     centerOfWall.z + v.y
                 );
+                invisibleBlockPositions.add(blockPos);
                 if (world.getBlockType(blockPos).getMaterial() == BlockMaterial.Empty) { // Only set block if space is empty, otherwise leave existing block
                     world.setBlock(
                     blockPos.x,
@@ -196,6 +220,11 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
             }
         }
         
+        holder.addComponent(
+            StoneWallComponent.getComponentType(),
+            new StoneWallComponent(8000, invisibleBlockPositions) // Wall lasts 8 seconds
+        );
+
         // Interaction effect
         world.execute(() -> {   
             store.addEntity(holder, AddReason.SPAWN);

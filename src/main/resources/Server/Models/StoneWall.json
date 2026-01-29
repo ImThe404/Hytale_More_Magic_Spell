@@ -25,6 +25,16 @@
           "Speed": 1.0
         }
       ]
+    },
+    "Despawn": {
+      "Animations": [
+        {
+          "Animation": "Items/Spawnables/Animations/Default/DespawnWall.blockyanim",
+          "Looping": false,
+          "SoundEventId": "SFX_WallSpawning",
+          "Speed": 1.0
+        }
+      ]
     }
   }
 }

@@ -9,11 +9,9 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nonnull;
 
-import org.MoreMagicSpell.Interactions.SendMessageInteraction;
-import org.MoreMagicSpell.Interactions.SpawnStoneWallInteraction;
-import org.MoreMagicSpell.Systems.PetrifiedSystem;
-import org.MoreMagicSpell.Components.PetrifiedComponent;
-import org.MoreMagicSpell.Interactions.PetrifiedEntityInteraction;
+import org.MoreMagicSpell.Systems.*;
+import org.MoreMagicSpell.Components.*;
+import org.MoreMagicSpell.Interactions.*;
 
 /**
  * This class serves as the entrypoint for your plugin. Use the setup method to register into game registries or add
@@ -26,6 +24,7 @@ public class MoreMagicSpell extends JavaPlugin {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private ComponentType<EntityStore, PetrifiedComponent> PetrifiedComponentType;
+    private ComponentType<EntityStore, StoneWallComponent> StoneWallComponentType;
 
     public MoreMagicSpell(@Nonnull JavaPluginInit init) {
         super(init);
@@ -48,9 +47,15 @@ public class MoreMagicSpell extends JavaPlugin {
             "Petrified",
             PetrifiedComponent.CODEC
         );
+        StoneWallComponentType = getEntityStoreRegistry().registerComponent(
+            StoneWallComponent.class,
+            "StoneWall",
+            StoneWallComponent.CODEC
+        );
 
         // Register Systems
         this.getEntityStoreRegistry().registerSystem(new PetrifiedSystem(this.PetrifiedComponentType));
+        this.getEntityStoreRegistry().registerSystem(new StoneWallSystem(this.StoneWallComponentType));
 
     }
 
@@ -63,6 +68,9 @@ public class MoreMagicSpell extends JavaPlugin {
     // Acces to component types
     public ComponentType<EntityStore, PetrifiedComponent> getPetrifiedComponentType() {
         return PetrifiedComponentType;
+    }
+    public ComponentType<EntityStore, StoneWallComponent> getStoneWallComponentType() {
+        return StoneWallComponentType;
     }
 
     public static MoreMagicSpell get() {

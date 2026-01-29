@@ -22,11 +22,6 @@
     ],
     "Group": "Stone",
     "Flags": {},
-    "Gathering": {
-      "Breaking": {
-        "GatherType": "Rocks"
-      }
-    },
     "BlockParticleSetId": "Stone",
     "Supporting": {
       "Down": [
