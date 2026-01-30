@@ -1,7 +1,7 @@
 {
   "Type": "StatsCondition",
   "Costs": {
-    "Stamina": 10
+    "Stamina": 3
   },
   "Next": {
     "Type": "Simple",
@@ -9,8 +9,8 @@
     "Next": {
       "Type": "ModifyInventory",
       "ItemToRemove": {
-        "Id": "Ingredient_Void_Essence",
-        "Quantity": 1
+        "Id": "Ingredient_Life_Essence",
+        "Quantity": 5
       },
       "AdjustHeldItemDurability": -0.5,
       "Next": {
@@ -28,7 +28,7 @@
               {
                 "Type": "ChangeStat",
                 "StatModifiers": {
-                  "Stamina": -10
+                  "Stamina": -3
                 }
               }
             ]

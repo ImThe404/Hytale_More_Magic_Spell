@@ -3,8 +3,11 @@ package org.MoreMagicSpell.Interactions;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
@@ -14,18 +17,17 @@ import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.entity.component.ActiveAnimationComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.BoundingBox;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-
-import java.util.Map;
-
 import org.MoreMagicSpell.Components.PetrifiedComponent;
 
 /**
@@ -46,7 +48,7 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         
         // Get CommandBuffer
         CommandBuffer<EntityStore> commandBuffer = interactionContext.getCommandBuffer();
-
+        
         // Verfication Checks for CommandBuffer, Player, and ItemStack
         if (commandBuffer == null) {
             interactionContext.getState().state = InteractionState.Failed;
@@ -54,6 +56,7 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
             return;
         }
         Store<EntityStore> store = commandBuffer.getExternalData().getStore();
+        World world = commandBuffer.getExternalData().getWorld();
         Ref<EntityStore> ref = interactionContext.getEntity();
         Player player = commandBuffer.getComponent(ref, Player.getComponentType());
         if (player == null) {
@@ -75,75 +78,70 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         } else {
             LOGGER.atInfo().log("Target entity found: " + target.toString());
         }
-        // Get components from target
-        ActiveAnimationComponent animationComponent = store.getComponent(target, ActiveAnimationComponent.getComponentType());
-        ModelComponent modelComponent = store.getComponent(target, ModelComponent.getComponentType());
-        TransformComponent transformComponent = store.getComponent(target, TransformComponent.getComponentType());
-        // Save current animations
-        String[] saved = null;
-        if (animationComponent != null) {
-            saved = animationComponent.getActiveAnimations();
-        }
-        // Save current model
-        Model originalModel = null;
-        if (modelComponent != null) {
-            originalModel = modelComponent.getModel();
-        }
-        // Save current position
-        double xP = transformComponent.getPosition().getX();
-        double yP = transformComponent.getPosition().getY();
-        double zP = transformComponent.getPosition().getZ();
-        // Save current rotation
-        float xR = transformComponent.getRotation().getX();
-        float yR = transformComponent.getRotation().getY();
-        float zR = transformComponent.getRotation().getZ();
-        // Add PetrifiedComponent to target
-        commandBuffer.addComponent(
-        target,
-        PetrifiedComponent.getComponentType(),
-        new PetrifiedComponent(PETRIFY_DURATION_MS, saved, originalModel, xP, yP, zP, xR, yR, zR));
-        // Replace ActiveAnimationComponent from target with empty animations
-        commandBuffer.replaceComponent(
-        target,
-        ActiveAnimationComponent.getComponentType(),
-        new ActiveAnimationComponent(new String[]{}));
-        // Replace Texture to use StoneWall Texture but keep the same model
-        Model stoneModel = new Model(
-            modelComponent.getModel().getModelAssetId(),
-            modelComponent.getModel().getScale(),
-            modelComponent.getModel().getRandomAttachmentIds(),
-            modelComponent.getModel().getAttachments(),
-            modelComponent.getModel().getBoundingBox(),
-            modelComponent.getModel().getModel(),
-            STONE_TEXTURE,  // Only change this line to use stone texture
-            modelComponent.getModel().getGradientSet(),
-            modelComponent.getModel().getGradientId(),
-            modelComponent.getModel().getEyeHeight(),
-            modelComponent.getModel().getCrouchOffset(),
-            Map.of(), // empty animation set map to prevent animation glitches
-            modelComponent.getModel().getCamera(),
-            modelComponent.getModel().getLight(),
-            modelComponent.getModel().getParticles(),
-            modelComponent.getModel().getTrails(),
-            modelComponent.getModel().getPhysicsValues(),
-            modelComponent.getModel().getDetailBoxes(),
-            modelComponent.getModel().getPhobia(),
-            modelComponent.getModel().getPhobiaModelAssetId()
-        );
-        // Apply new stone model to target
-        commandBuffer.replaceComponent(
-        target,
-        ModelComponent.getComponentType(),
-        new ModelComponent(stoneModel));
 
-        // Play sound effect to around the target entity
-        World world = commandBuffer.getExternalData().getWorld();
-        int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); 
-        world.execute(() -> {
-            TransformComponent transform = store.getComponent(target, EntityModule.get().getTransformComponentType());
-            SoundUtil.playSoundEvent3d(target, index, transform.getPosition(), store);
+        // HERE TODO
+        /*
+            if the target entity is already petrified, do nothing
+
+            if the target entity is a player, do nothing
+        */
+
+        // Get components from target
+        TransformComponent targetTransformComponent = store.getComponent(target, TransformComponent.getComponentType());
+        ModelComponent targetModelComponent = store.getComponent(target, ModelComponent.getComponentType());
+        ActiveAnimationComponent targetActiveAnimationComponent = store.getComponent(target, ActiveAnimationComponent.getComponentType());
+
+        if (targetTransformComponent == null || targetModelComponent == null || targetActiveAnimationComponent == null) { // Security check
+            LOGGER.atInfo().log("Target entity missing required components for petrification.");
+            return;
+        }
+
+        // Create Pertrified Model
+        Model targetModel = targetModelComponent.getModel();
+        Model stoneModel = new Model(
+            targetModel.getModelAssetId(),
+            targetModel.getScale(),
+            targetModel.getRandomAttachmentIds(),
+            targetModel.getAttachments(),
+            targetModel.getBoundingBox(),
+            targetModel.getModel(),
+            STONE_TEXTURE,  // Only change this line to use stone texture
+            targetModel.getGradientSet(),
+            targetModel.getGradientId(),
+            targetModel.getEyeHeight(),
+            targetModel.getCrouchOffset(),
+            targetModel.getAnimationSetMap(),
+            targetModel.getCamera(),
+            targetModel.getLight(),
+            targetModel.getParticles(),
+            targetModel.getTrails(),
+            targetModel.getPhysicsValues(),
+            targetModel.getDetailBoxes(),
+            targetModel.getPhobia(),
+            targetModel.getPhobiaModelAssetId()
+        );
+
+        // Create an brainless Model of the target entity
+        Holder<EntityStore> brainlessHolder = EntityStore.REGISTRY.newHolder();
+        brainlessHolder.addComponent(TransformComponent.getComponentType(), targetTransformComponent); // keep same transform (position/rotation)
+        brainlessHolder.addComponent(PersistentModel.getComponentType(), new PersistentModel(stoneModel.toReference())); 
+        brainlessHolder.addComponent(ModelComponent.getComponentType(), new ModelComponent(stoneModel)); // use stone model
+        brainlessHolder.addComponent(BoundingBox.getComponentType(), new BoundingBox(stoneModel.getBoundingBox()));
+        brainlessHolder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
+        brainlessHolder.addComponent(ActiveAnimationComponent.getComponentType(), targetActiveAnimationComponent); // keep same active animations
+
+        // Save and remove Original Entity
+        Holder<EntityStore> originalHolder = EntityStore.REGISTRY.newHolder();
+        commandBuffer.removeEntity(target, originalHolder, RemoveReason.REMOVE);
+        PetrifiedComponent petrifiedComp = new PetrifiedComponent(PETRIFY_DURATION_MS, originalHolder);
+        brainlessHolder.addComponent(PetrifiedComponent.getComponentType(), petrifiedComp); // add PetrifiedComponent to brainless entity
+
+        // Add the brainless Model entity to the world, and play petrification sound
+        int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); // get petrification sound index
+        world.execute(() -> {   
+            store.addEntity(brainlessHolder, AddReason.SPAWN);
+            SoundUtil.playSoundEvent3d(target, index, targetTransformComponent.getPosition(), store);
         });
-        
 
     }
 }

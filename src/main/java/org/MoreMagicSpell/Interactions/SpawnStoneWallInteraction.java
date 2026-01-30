@@ -6,7 +6,6 @@ import java.util.List;
 import org.MoreMagicSpell.Components.StoneWallComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
-import com.hypixel.hytale.builtin.hytalegenerator.fields.FastNoiseLite.Vector3;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.CommandBuffer;
@@ -29,29 +28,12 @@ import com.hypixel.hytale.server.core.asset.type.model.config.ModelAsset;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.modules.entity.component.ActiveAnimationComponent;
-import com.hypixel.hytale.server.core.modules.entity.component.BoundingBox;
-import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
-import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
-import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
-import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.*;
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-
-/*
-TO DO
-
-Time limit on wall duration before disappearing
-Animation on Despawn
-If can't find space to spawn wall, give message to player and cancel interaction
-
-*/
-
-
-
 
 /**
  * Interaction that spawns a stone wall entity in front of the player when used.
@@ -209,8 +191,8 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
                     centerOfWall.y + y_add,
                     centerOfWall.z + v.y
                 );
-                invisibleBlockPositions.add(blockPos);
                 if (world.getBlockType(blockPos).getMaterial() == BlockMaterial.Empty) { // Only set block if space is empty, otherwise leave existing block
+                    invisibleBlockPositions.add(blockPos); // Save position to remove later
                     world.setBlock(
                     blockPos.x,
                     blockPos.y,
