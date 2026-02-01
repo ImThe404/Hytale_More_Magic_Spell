@@ -1,0 +1,58 @@
+{
+  "Type": "StatsCondition",
+  "Costs": {
+    "Stamina": 3
+  },
+  "$Comment": "Prepare Delay",
+  "RunTime": 0.167,
+  "Next": {
+    "Type": "Simple",
+    "RunTime": 0.1,
+    "Next": {
+      "Type": "ModifyInventory",
+      "ItemToRemove": {
+        "Id": "Ingredient_Life_Essence",
+        "Quantity": 5
+      },
+      "AdjustHeldItemDurability": -0.5,
+      "Next": {
+        "Type": "Parallel",
+          "Interactions": [
+            {
+              "Interactions": [
+                {
+                  "Type": "petrified_entity_interaction",
+                  "ClearAnimationOnFinish": true,
+                  "Effects": {
+                      "ItemAnimationId": "CastLeftCharged"
+                  }
+                }
+              ]
+            },
+            {
+              "Interactions": [
+                {
+                  "Type": "Replace",
+                  "DefaultValue": {
+                    "Interactions": [
+                      "Wand_Cast_Effect"
+                    ]
+                  },
+                  "Var": "Wand_Cast_Left_Effect"
+                }
+              ]
+            }
+          ]
+      }
+    }
+  },
+  "Failed": {
+    "Type": "Replace",
+    "DefaultValue": {
+      "Interactions": [
+        "Wand_Cast_Fail"
+      ]
+    },
+    "Var": "Wand_Cast_Left_Fail"
+  }
+}

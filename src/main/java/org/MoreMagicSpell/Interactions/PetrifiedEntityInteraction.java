@@ -10,6 +10,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
@@ -23,12 +24,15 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.entity.component.ActiveAnimationComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.BoundingBox;
+import com.hypixel.hytale.server.core.modules.entity.component.Intangible;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.MoreMagicSpell.Components.PetrifiedComponent;
+import com.hypixel.hytale.server.core.modules.physics.component.PhysicsValues;
+import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
 
 /**
  * Interaction that petrifies a target entity, changing its model to a stone texture and stopping its animations for a duration.
@@ -79,12 +83,12 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
             LOGGER.atInfo().log("Target entity found: " + target.toString());
         }
 
-        // HERE TODO
-        /*
-            if the target entity is already petrified, do nothing
-
-            if the target entity is a player, do nothing
-        */
+        // If the entity is a player, do not petrify
+        Player targetPlayer = store.getComponent(target, Player.getComponentType());
+        if (targetPlayer != null) {
+            LOGGER.atInfo().log("Target entity is a player, cannot petrify.");
+            return;
+        }
 
         // Get components from target
         TransformComponent targetTransformComponent = store.getComponent(target, TransformComponent.getComponentType());
@@ -129,10 +133,14 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         brainlessHolder.addComponent(BoundingBox.getComponentType(), new BoundingBox(stoneModel.getBoundingBox()));
         brainlessHolder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
         brainlessHolder.addComponent(ActiveAnimationComponent.getComponentType(), targetActiveAnimationComponent); // keep same active animations
+        brainlessHolder.addComponent(Intangible.getComponentType(), Intangible.INSTANCE); // make intangible so entity can't be hit while petrified
+        brainlessHolder.addComponent(PhysicsValues.getComponentType(), new PhysicsValues(2.0, 0.5, false)); // basic physics values
+        brainlessHolder.addComponent(Velocity.getComponentType(), new Velocity(new Vector3d(0, 0, 0)));
+        
 
         // Save and remove Original Entity
         Holder<EntityStore> originalHolder = EntityStore.REGISTRY.newHolder();
-        commandBuffer.removeEntity(target, originalHolder, RemoveReason.REMOVE);
+        commandBuffer.removeEntity(target, originalHolder, RemoveReason.UNLOAD);
         PetrifiedComponent petrifiedComp = new PetrifiedComponent(PETRIFY_DURATION_MS, originalHolder);
         brainlessHolder.addComponent(PetrifiedComponent.getComponentType(), petrifiedComp); // add PetrifiedComponent to brainless entity
 

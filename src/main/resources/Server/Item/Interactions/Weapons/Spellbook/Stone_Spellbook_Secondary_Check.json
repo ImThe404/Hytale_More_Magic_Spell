@@ -1,8 +1,0 @@
-{
-  "Type": "StatsCondition",
-  "Costs": {
-    "Stamina": 0
-  },
-  "Next": "Stone_Spellbook_Secondary_Charging",
-  "Failed": "Block_Swing_Down"
-}
