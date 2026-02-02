@@ -134,7 +134,7 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         brainlessHolder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
         brainlessHolder.addComponent(ActiveAnimationComponent.getComponentType(), targetActiveAnimationComponent); // keep same active animations
         brainlessHolder.addComponent(Intangible.getComponentType(), Intangible.INSTANCE); // make intangible so entity can't be hit while petrified
-        brainlessHolder.addComponent(PhysicsValues.getComponentType(), new PhysicsValues(2.0, 0.5, false)); // basic physics values
+        brainlessHolder.addComponent(PhysicsValues.getComponentType(), new PhysicsValues(2.5, 0.5, false)); // basic physics values
         brainlessHolder.addComponent(Velocity.getComponentType(), new Velocity(new Vector3d(0, 0, 0)));
         
 
