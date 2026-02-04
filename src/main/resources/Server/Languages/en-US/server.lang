@@ -1,6 +1,6 @@
 
 items.Weapon_Stone_Spellbook.name=Stone Spellbook
-items.Weapon_Stone_Spellbook.desc=The protector Spellbook!\n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to build a wall.
+items.Weapon_Stone_Spellbook.desc=The protector Spellbook!\n Use 25 Mana to build a wall.
 
 items.Weapon_Lightning_Staff.name=Lightning Staff
 items.Weapon_Lightning_Staff.desc=<color is="#ccaa00">Work in Progress</color>
@@ -9,6 +9,6 @@ items.Weapon_Water_Staff.name=Water Staff
 items.Weapon_Water_Staff.desc=<color is="#ccaa00">Work in Progress</color>
 
 items.Weapon_Wand_Petrification.name=Wand of Petrification
-items.Weapon_Wand_Petrification.desc=The ultimate Wand! \n\nConsumes 5 <item is="Ingredient_Life_Essence"/> to petrified an animals/mobs in front of you!
+items.Weapon_Wand_Petrification.desc=The ultimate Wand! \n Use 25 Mana to petrified an animals/mobs in front of you!
 
 items.InvisibleBlock.name=InvisibleBlock
