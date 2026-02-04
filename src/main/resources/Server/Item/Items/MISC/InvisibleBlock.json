@@ -42,24 +42,5 @@
       "Stone"
     ]
   },
-  "ItemSoundSetId": "ISS_Blocks_Stone",
-  "Recipe": {
-    "Input": [
-      {
-        "ResourceTypeId": "Rock_Stone_Brick",
-        "Quantity": 1
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Builders",
-        "Type": "StructuralCrafting",
-        "Categories": [
-          "Pillar"
-        ]
-      }
-    ],
-    "OutputQuantity": 1,
-    "TimeSeconds": 0
-  }
+  "ItemSoundSetId": "ISS_Blocks_Stone"
 }

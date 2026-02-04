@@ -1,16 +1,15 @@
 {
   "Type": "StatsCondition",
   "Costs": {
-    "Stamina": 3
+    "Mana": 25
   },
   "Next": {
     "Type": "Simple",
     "RunTime": 0.1,
     "Next": {
-      "Type": "ModifyInventory",
-      "ItemToRemove": {
-        "Id": "Ingredient_Life_Essence",
-        "Quantity": 5
+      "Type": "ChangeStat",
+      "StatModifiers": {
+        "Mana": -25
       },
       "AdjustHeldItemDurability": -0.5,
       "Next": {
@@ -20,16 +19,6 @@
             "Interactions": [
               {
                 "Type": "spawn_entity_interaction"
-              }
-            ]
-          },
-          {
-            "Interactions": [
-              {
-                "Type": "ChangeStat",
-                "StatModifiers": {
-                  "Stamina": -3
-                }
               }
             ]
           },

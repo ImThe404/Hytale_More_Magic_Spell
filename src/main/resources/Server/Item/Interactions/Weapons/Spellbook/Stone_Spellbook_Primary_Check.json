@@ -1,7 +1,7 @@
 {
   "Type": "StatsCondition",
   "Costs": {
-    "Stamina": 3
+    "Mana": 25
   },
   "Next": "Stone_Spellbook_Primary_Charging",
   "Failed": "Block_Swing_Down"

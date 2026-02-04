@@ -47,7 +47,8 @@
         "Type": "Crafting",
         "Categories": [
           "Arcane_Misc"
-        ]
+        ],
+        "RequiredTierLevel": 1
       }
     ]
   },

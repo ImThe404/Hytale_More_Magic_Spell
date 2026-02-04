@@ -185,7 +185,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         List<Vector2i> Wallshape = this.getShape(direction);
         List<Vector3i> invisibleBlockPositions = new ArrayList<>();
         for (Vector2i v : Wallshape) { // For each position in the wall shape
-            for (int y_add = 0 ; y_add < 3 ; y_add++) { // Wall height of 3 blocks
+            for (int y_add = -2 ; y_add < 3 ; y_add++) { // Wall height of 3 blocks (+2 under making it 5 blocks)
                 Vector3i blockPos = new Vector3i(
                     centerOfWall.x + v.x,
                     centerOfWall.y + y_add,

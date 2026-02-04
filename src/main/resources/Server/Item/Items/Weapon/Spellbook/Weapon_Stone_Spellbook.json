@@ -48,8 +48,9 @@
         "Id": "Arcanebench",
         "Type": "Crafting",
         "Categories": [
-          "Arcane_Misc"
-        ]
+          "Arcane_Spellbooks"
+        ],
+        "RequiredTierLevel": 1
       }
     ]
   },
