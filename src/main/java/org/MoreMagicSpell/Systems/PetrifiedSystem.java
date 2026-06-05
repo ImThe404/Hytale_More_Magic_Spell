@@ -15,7 +15,7 @@ import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.tick.EntityTickingSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.shape.Box;
-import com.hypixel.hytale.math.vector.Vector3d;
+import org.joml.Vector3d;
 import com.hypixel.hytale.server.core.modules.collision.BlockCollisionData;
 import com.hypixel.hytale.server.core.modules.collision.CollisionModule;
 import com.hypixel.hytale.server.core.modules.collision.CollisionResult;
@@ -78,7 +78,7 @@ public class PetrifiedSystem extends EntityTickingSystem<EntityStore> {
         ItemPrePhysicsSystem.applyGravity(dt, boundingBox, values, position, velocity);
         // Step 2: Calculate scaled velocity for this tick
         Vector3d scaledVelocity = new Vector3d();
-        velocity.assignVelocityTo(scaledVelocity).scale(dt);
+        velocity.assignVelocityTo(scaledVelocity).mul(dt);
         // Step 3: Check for collisions with terrain
         CollisionResult collisionResult = new CollisionResult();
         if (CollisionModule.isBelowMovementThreshold(scaledVelocity)) {
@@ -88,16 +88,16 @@ public class PetrifiedSystem extends EntityTickingSystem<EntityStore> {
         }
         // Step 4: Handle collision results
         BlockCollisionData blockCollisionData = collisionResult.getFirstBlockCollision();
-        if (blockCollisionData != null && blockCollisionData.collisionNormal.equals(Vector3d.UP)) {
+        if (blockCollisionData != null && blockCollisionData.collisionNormal.equals(new Vector3d(0, 1, 0))) {
             // Hit ground - stop falling and place at collision point
             velocity.setZero();
-            position.assign(blockCollisionData.collisionPoint);
+            position.set(blockCollisionData.collisionPoint);
         } else {
             // No collision or collision from side/top - apply velocity to position
             position.add(scaledVelocity);
         }
         // Step 5: Remove entity if it falls too far below world
-        if (position.getY() < -32.0) {
+        if (position.y() < -32.0) {
             commandBuffer.removeEntity(archetypeChunk.getReferenceTo(index), RemoveReason.REMOVE);
         }
     }

@@ -13,10 +13,12 @@ import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.vector.Vector2i;
-import com.hypixel.hytale.math.vector.Vector3d;
-import com.hypixel.hytale.math.vector.Vector3f;
-import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.math.vector.Rotation3f;
+
+import org.joml.Vector2i;
+import org.joml.Vector3d;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.protocol.BlockMaterial;
 import com.hypixel.hytale.protocol.InteractionState;
@@ -32,6 +34,7 @@ import com.hypixel.hytale.server.core.modules.entity.component.*;
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
@@ -63,7 +66,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
             return;
         }
         Ref<EntityStore> ref = interactionContext.getEntity();
-        Player player = commandBuffer.getComponent(ref, Player.getComponentType());
+        var player = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
         if (player == null) {
             interactionContext.getState().state = InteractionState.Failed;
             LOGGER.atInfo().log("Player is null");
@@ -88,7 +91,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
         // Getting Information from Player
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
         HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
-        float direction = headRotation.getRotation().getY(); // facing direction of player
+        float direction = headRotation.getRotation().y(); // facing direction of player
 
         // Getting direction on 45 degree increments
         direction = (float) (Math.round(direction / (Math.PI / 4)) * (Math.PI / 4));
@@ -105,7 +108,7 @@ public class SpawnStoneWallInteraction extends SimpleInstantInteraction {
             )
         );
         wallPosition = new Vector3d(((int)wallPosition.x)+0.5, (int)wallPosition.y, ((int)wallPosition.z)+0.5); // Center wall on block grid
-        Vector3f wallRotation = new Vector3f(0, direction, 0); // align wall to face player
+        Rotation3f wallRotation = new Rotation3f(0, direction, 0); // align wall to face player
         TransformComponent wallTransform = new TransformComponent(wallPosition, wallRotation); // Make TransformComponent for wall
         
         Vector3i centerOfWall = new Vector3i(
