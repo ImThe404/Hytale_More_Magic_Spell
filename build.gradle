@@ -4,17 +4,17 @@ plugins {
     id 'com.azuredoom.hytale-tools' version '1.0.38'
 }
 
+dependencies {
+    compileOnly 'curse.maven:hexcode-1448311:8166165'
+}
+
 hytaleTools {
     manifestGroup = 'org.MoreMagicSpell'
-    // Author format: Name, or Name|Email, or Name|Email|Url.
-    // Separate multiple authors with commas. Email and Url are optional.
-    // Example: 'Alice|alice@example.com|https://example.com,Bob'
     modCredits = 'Im404,Rirpod'
     patchline = 'release'
     modId = 'More_Magic_Spell'
     mainClass = 'org.MoreMagicSpell.MoreMagicSpell'
+    manifestOptionalDependencies='Riprod:Hexcode=^0.8.5,Riprod:Patchly=*'
 
-    // Optional: enabled by default. Injects hosted Hytale API docs into
-    // generated Vineflower server sources for easier IDE browsing.
     injectServerJavadocsIntoSources = true
 }  

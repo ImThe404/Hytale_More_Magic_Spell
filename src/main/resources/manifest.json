@@ -16,7 +16,8 @@
         "Hytale:AssetModule": "*"
     },
     "OptionalDependencies": {
-        
+        "Riprod:Hexcode": "^0.8.5",
+        "Riprod:Patchly": "*"
     },
     "DisabledByDefault": false,
     "Main": "org.MoreMagicSpell.MoreMagicSpell",
