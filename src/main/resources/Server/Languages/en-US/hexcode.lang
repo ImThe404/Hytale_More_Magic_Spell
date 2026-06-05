@@ -1,0 +1,14 @@
+glyphs.StoneWall.name=Stone Wall
+glyphs.StoneWall.description=Summons a stone wall for a duration
+glyphs.StoneWall.target.name=Origin
+glyphs.StoneWall.target.description=The entity to spawn the stone wall from
+glyphs.StoneWall.Next.name=Next Hex
+glyphs.StoneWall.Next.description=The next glyph to execute
+
+
+glyphs.Petrify.name=Petrify
+glyphs.Petrify.description=Petrifies a target for a duration
+glyphs.Petrify.target.name=Target
+glyphs.Petrify.target.description=The target to petrify
+glyphs.Petrify.Next.name=Next Hex
+glyphs.Petrify.Next.description=The next glyph to execute
