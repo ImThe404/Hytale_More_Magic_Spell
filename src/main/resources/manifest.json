@@ -1,21 +1,28 @@
 {
     "Group": "org.MoreMagicSpell",
-    "Name": "More Magic Spell",
+    "Name": "More_Magic_Spell",
     "Version": "1.1.2",
-    "Description": "A plugin for hytale adding new Magic/Spell",
+    "Description": "",
     "Authors": [
         {
             "Name": "Im404"
+        },
+        {
+            "Name": "Rirpod"
         }
     ],
-    "ServerVersion": "*",
+    "ServerVersion": ">=0.5.4",
     "Dependencies": {
-        
+        "Hytale:AssetModule": "*"
     },
     "OptionalDependencies": {
         
     },
     "DisabledByDefault": false,
     "Main": "org.MoreMagicSpell.MoreMagicSpell",
-    "IncludesAssetPack": true
+    "IncludesAssetPack": true,
+    "Website": "",
+    "UpdateChecker": {
+        "CurseForge": ""
+    }
 }

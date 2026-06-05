@@ -10,7 +10,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.vector.Vector3d;
+import org.joml.Vector3d;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.model.config.Model;
@@ -35,12 +35,12 @@ import com.hypixel.hytale.server.core.modules.physics.component.PhysicsValues;
 import com.hypixel.hytale.server.core.modules.physics.component.Velocity;
 
 /**
- * Interaction that petrifies a target entity, changing its model to a stone texture and stopping its animations for a duration.
+ * Interaction that petrifies a target entity, changing its model to a stone
+ * texture and stopping its animations for a duration.
  */
 public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
     public static final BuilderCodec<PetrifiedEntityInteraction> CODEC = BuilderCodec.builder(
-            PetrifiedEntityInteraction.class, PetrifiedEntityInteraction::new, SimpleInstantInteraction.CODEC
-    ).build();
+            PetrifiedEntityInteraction.class, PetrifiedEntityInteraction::new, SimpleInstantInteraction.CODEC).build();
 
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
@@ -48,11 +48,12 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
     private static final int PETRIFY_DURATION_MS = 5000;
 
     @Override
-    protected void firstRun(@NonNullDecl InteractionType interactionType, @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
-        
+    protected void firstRun(@NonNullDecl InteractionType interactionType,
+            @NonNullDecl InteractionContext interactionContext, @NonNullDecl CooldownHandler cooldownHandler) {
+
         // Get CommandBuffer
         CommandBuffer<EntityStore> commandBuffer = interactionContext.getCommandBuffer();
-        
+
         // Verfication Checks for CommandBuffer, Player, and ItemStack
         if (commandBuffer == null) {
             interactionContext.getState().state = InteractionState.Failed;
@@ -93,9 +94,11 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         // Get components from target
         TransformComponent targetTransformComponent = store.getComponent(target, TransformComponent.getComponentType());
         ModelComponent targetModelComponent = store.getComponent(target, ModelComponent.getComponentType());
-        ActiveAnimationComponent targetActiveAnimationComponent = store.getComponent(target, ActiveAnimationComponent.getComponentType());
+        ActiveAnimationComponent targetActiveAnimationComponent = store.getComponent(target,
+                ActiveAnimationComponent.getComponentType());
 
-        if (targetTransformComponent == null || targetModelComponent == null || targetActiveAnimationComponent == null) { // Security check
+        if (targetTransformComponent == null || targetModelComponent == null
+                || targetActiveAnimationComponent == null) { // Security check
             LOGGER.atInfo().log("Target entity missing required components for petrification.");
             return;
         }
@@ -103,50 +106,62 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
         // Create Pertrified Model
         Model targetModel = targetModelComponent.getModel();
         Model stoneModel = new Model(
-            targetModel.getModelAssetId(),
-            targetModel.getScale(),
-            targetModel.getRandomAttachmentIds(),
-            targetModel.getAttachments(),
-            targetModel.getBoundingBox(),
-            targetModel.getModel(),
-            STONE_TEXTURE,  // Only change this line to use stone texture
-            targetModel.getGradientSet(),
-            targetModel.getGradientId(),
-            targetModel.getEyeHeight(),
-            targetModel.getCrouchOffset(),
-            targetModel.getAnimationSetMap(),
-            targetModel.getCamera(),
-            targetModel.getLight(),
-            targetModel.getParticles(),
-            targetModel.getTrails(),
-            targetModel.getPhysicsValues(),
-            targetModel.getDetailBoxes(),
-            targetModel.getPhobia(),
-            targetModel.getPhobiaModelAssetId()
-        );
+                targetModel.getModelAssetId(),
+                targetModel.getScale(),
+                targetModel.getRandomAttachmentIds(),
+                targetModel.getAttachments(),
+                targetModel.getBoundingBox(),
+                targetModel.getModel(),
+                STONE_TEXTURE,
+                targetModel.getGradientSet(),
+                targetModel.getGradientId(),
+                targetModel.getEyeHeight(),
+                targetModel.getCrouchOffset(),
+                targetModel.getSittingOffset(),
+                targetModel.getSleepingOffset(),
+                targetModel.getAnimationSetMap(),
+                targetModel.getCamera(),
+                targetModel.getLight(),
+                targetModel.getParticles(),
+                targetModel.getTrails(),
+                targetModel.getPhysicsValues(),
+                targetModel.getDetailBoxes(),
+                targetModel.getPhobia(),
+                targetModel.getPhobiaModelAssetId());
 
         // Create an brainless Model of the target entity
         Holder<EntityStore> brainlessHolder = EntityStore.REGISTRY.newHolder();
-        brainlessHolder.addComponent(TransformComponent.getComponentType(), targetTransformComponent); // keep same transform (position/rotation)
-        brainlessHolder.addComponent(PersistentModel.getComponentType(), new PersistentModel(stoneModel.toReference())); 
-        brainlessHolder.addComponent(ModelComponent.getComponentType(), new ModelComponent(stoneModel)); // use stone model
+        brainlessHolder.addComponent(TransformComponent.getComponentType(), targetTransformComponent); // keep same
+                                                                                                       // transform
+                                                                                                       // (position/rotation)
+        brainlessHolder.addComponent(PersistentModel.getComponentType(), new PersistentModel(stoneModel.toReference()));
+        brainlessHolder.addComponent(ModelComponent.getComponentType(), new ModelComponent(stoneModel)); // use stone
+                                                                                                         // model
         brainlessHolder.addComponent(BoundingBox.getComponentType(), new BoundingBox(stoneModel.getBoundingBox()));
-        brainlessHolder.addComponent(NetworkId.getComponentType(), new NetworkId(store.getExternalData().takeNextNetworkId()));
-        brainlessHolder.addComponent(ActiveAnimationComponent.getComponentType(), targetActiveAnimationComponent); // keep same active animations
-        brainlessHolder.addComponent(Intangible.getComponentType(), Intangible.INSTANCE); // make intangible so entity can't be hit while petrified
-        brainlessHolder.addComponent(PhysicsValues.getComponentType(), new PhysicsValues(2.5, 0.5, false)); // basic physics values
+        brainlessHolder.addComponent(NetworkId.getComponentType(),
+                new NetworkId(store.getExternalData().takeNextNetworkId()));
+        brainlessHolder.addComponent(ActiveAnimationComponent.getComponentType(), targetActiveAnimationComponent); // keep
+                                                                                                                   // same
+                                                                                                                   // active
+                                                                                                                   // animations
+        brainlessHolder.addComponent(Intangible.getComponentType(), Intangible.INSTANCE); // make intangible so entity
+                                                                                          // can't be hit while
+                                                                                          // petrified
+        brainlessHolder.addComponent(PhysicsValues.getComponentType(), new PhysicsValues(2.5, 0.5, false)); // basic
+                                                                                                            // physics
+                                                                                                            // values
         brainlessHolder.addComponent(Velocity.getComponentType(), new Velocity(new Vector3d(0, 0, 0)));
-        
 
         // Save and remove Original Entity
         Holder<EntityStore> originalHolder = EntityStore.REGISTRY.newHolder();
         commandBuffer.removeEntity(target, originalHolder, RemoveReason.UNLOAD);
         PetrifiedComponent petrifiedComp = new PetrifiedComponent(PETRIFY_DURATION_MS, originalHolder);
-        brainlessHolder.addComponent(PetrifiedComponent.getComponentType(), petrifiedComp); // add PetrifiedComponent to brainless entity
+        brainlessHolder.addComponent(PetrifiedComponent.getComponentType(), petrifiedComp); // add PetrifiedComponent to
+                                                                                            // brainless entity
 
         // Add the brainless Model entity to the world, and play petrification sound
         int index = SoundEvent.getAssetMap().getIndex("SFX_Petrification"); // get petrification sound index
-        world.execute(() -> {   
+        world.execute(() -> {
             store.addEntity(brainlessHolder, AddReason.SPAWN);
             SoundUtil.playSoundEvent3d(target, index, targetTransformComponent.getPosition(), store);
         });

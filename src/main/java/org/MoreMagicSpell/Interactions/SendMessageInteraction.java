@@ -16,6 +16,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 /**
@@ -42,7 +43,7 @@ public class SendMessageInteraction extends SimpleInstantInteraction {
         }
         Store<EntityStore> store = commandBuffer.getExternalData().getStore(); 
         Ref<EntityStore> ref = interactionContext.getEntity();
-        Player player = commandBuffer.getComponent(ref, Player.getComponentType());
+        PlayerRef player = commandBuffer.getComponent(ref, PlayerRef.getComponentType());
         if (player == null) {
             interactionContext.getState().state = InteractionState.Failed;
             LOGGER.atInfo().log("Player is null");
@@ -58,7 +59,7 @@ public class SendMessageInteraction extends SimpleInstantInteraction {
         // Send message to player for Debugging IN-GAME
         player.sendMessage(Message.raw("You have used the custom item +" + itemStack.getItemId()));
         TransformComponent playerTransform = store.getComponent(ref, TransformComponent.getComponentType());
-        player.sendMessage(Message.raw(" PlayerRotation : " + playerTransform.getRotation().getY() ));
+        player.sendMessage(Message.raw(" PlayerRotation : " + playerTransform.getRotation().y() ));
     }
 }
 
