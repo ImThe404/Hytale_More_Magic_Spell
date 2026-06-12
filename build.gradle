@@ -4,8 +4,18 @@ plugins {
     id 'com.azuredoom.hytale-tools' version '1.0.38'
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of((project.java_version as String).toInteger())
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+
 dependencies {
-    compileOnly 'curse.maven:hexcode-1448311:8166165'
+    // implementation 'curse.maven:hexcode-1448311:8234010'
+    implementation files('lib/Hexcode-0.8.5.jar')
 }
 
 hytaleTools {

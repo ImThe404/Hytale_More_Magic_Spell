@@ -26,6 +26,13 @@
       "Description": "hexcode.glyphs.Petrify.target.description",
       "Unique": true
     },
+    "Duration": {
+      "Style": "Input",
+      "Label": "hexcode.glyphs.Petrify.duration.name",
+      "Description": "hexcode.glyphs.Petrify.duration.description",
+      "DefaultValue": 5,
+      "Unique": true
+    },
     "Next": {
       "Style": "Next",
       "Label": "hexcode.glyphs.Petrify.Next.name",

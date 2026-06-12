@@ -30,10 +30,22 @@
     }
   ],
   "Slots": {
-    "target": {
+    "Target": {
       "Style": "Input",
       "Label": "hexcode.glyphs.StoneWall.target.name",
       "Description": "hexcode.glyphs.StoneWall.target.description"
+    },
+    "Rotation": {
+      "Style": "Input",
+      "Label": "hexcode.glyphs.StoneWall.rotation.name",
+      "Description": "hexcode.glyphs.StoneWall.rotation.description"
+    },
+    "Duration": {
+      "Style": "Input",
+      "Label": "hexcode.glyphs.StoneWall.duration.name",
+      "Description": "hexcode.glyphs.StoneWall.duration.description",
+      "DefaultValue": 5,
+      "Unique": true
     },
     "Next": {
       "Style": "Next",

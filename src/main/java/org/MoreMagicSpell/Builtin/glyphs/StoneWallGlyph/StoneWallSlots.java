@@ -4,5 +4,7 @@ public class StoneWallSlots {
     private StoneWallSlots() {
     }
 
-    public static final String TARGET = "target";
+    public static final String TARGET = "Target";
+    public static final String ROTATION = "Rotation";
+    public static final String DURATION = "Duration";
 }

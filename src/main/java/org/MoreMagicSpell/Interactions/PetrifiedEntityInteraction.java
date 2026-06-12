@@ -76,7 +76,7 @@ public class PetrifiedEntityInteraction extends SimpleInstantInteraction {
             LOGGER.atInfo().log("Target entity found: " + target.toString());
         }
 
-        interactionContext.getState().state = PetrifySpell.CastSpell(commandBuffer, target);
+        interactionContext.getState().state = PetrifySpell.CastSpell(commandBuffer, target, 5000);
         return;
 
     }

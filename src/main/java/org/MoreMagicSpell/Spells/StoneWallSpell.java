@@ -37,58 +37,30 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 public class StoneWallSpell {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    private static final float WALL_SPAWN_DISTANCE = 5.0f;
-
     private static List<Vector2i> SHAPE_FLAT;
     private static List<Vector2i> SHAPE_CORNER;
 
-    public static InteractionState CastSpell(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> target) {
-
-        var player = commandBuffer.getComponent(target, PlayerRef.getComponentType());
-        if (player == null) {
-            LOGGER.atInfo().log("Player is null");
-            return InteractionState.Failed;
-        }
-
+    public static InteractionState CastSpell(CommandBuffer<EntityStore> commandBuffer,
+            Vector3d origin, Rotation3f rotation, int durationMs) {
         // Get Store and World
         World world = commandBuffer.getExternalData().getWorld();
 
         // Create Entity Holder to make a new Entity
         Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
         // Getting Model Asset and creating Model
-        ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("StoneWallConjuration"); // Model in JSON in ressources
+        ModelAsset modelAsset = ModelAsset.getAssetMap().getAsset("StoneWallConjuration"); // Model in JSON in
+                                                                                           // ressources
         Model model = Model.createScaledModel(modelAsset, 1.0f);
         // Getting Information from Player
-        TransformComponent playerTransform = commandBuffer.getComponent(target, TransformComponent.getComponentType());
-        HeadRotation headRotation = commandBuffer.getComponent(target, HeadRotation.getComponentType());
-        float direction = headRotation.getRotation().y(); // facing direction of player
 
-        // Getting direction on 45 degree increments
-        direction = (float) (Math.round(direction / (Math.PI / 4)) * (Math.PI / 4));
-
-        // Calculate spawn position in front of player
-        double offsetX = -Math.sin(direction) * WALL_SPAWN_DISTANCE;
-        double offsetZ = -Math.cos(direction) * WALL_SPAWN_DISTANCE;
-        Vector3d wallPosition = new Vector3d(playerTransform.getPosition());
-        wallPosition.add(
-                new Vector3d(
-                        offsetX,
-                        0,
-                        offsetZ));
-        wallPosition = new Vector3d(((int) wallPosition.x) + 0.5, (int) wallPosition.y, ((int) wallPosition.z) + 0.5); // Center
-                                                                                                                       // wall
-                                                                                                                       // on
-                                                                                                                       // block
-                                                                                                                       // grid
-        Rotation3f wallRotation = new Rotation3f(0, direction, 0); // align wall to face player
-        TransformComponent wallTransform = new TransformComponent(wallPosition, wallRotation); // Make
-                                                                                               // TransformComponent for
-                                                                                               // wall
+        TransformComponent wallTransform = new TransformComponent(origin, new Rotation3f(0, rotation.y(), 0)); // Make
+                                                                                     // TransformComponent for
+                                                                                     // wall
 
         Vector3i centerOfWall = new Vector3i(
-                (int) Math.floor(wallPosition.x),
-                (int) Math.floor(wallPosition.y),
-                (int) Math.floor(wallPosition.z));
+                (int) Math.floor(origin.x),
+                (int) Math.floor(origin.y),
+                (int) Math.floor(origin.z));
 
         BlockType wallSpawnBlockPos = world.getBlockType(centerOfWall);
         ; // Type of block where the wall will be spawned
@@ -139,7 +111,6 @@ public class StoneWallSpell {
                         .equals(BlockMaterial.Solid))) {
             // Could not find suitable space to spawn wall
             LOGGER.atInfo().log("Failed to find suitable space to spawn wall");
-            player.sendMessage(Message.raw("Stone Wall could not find space to spawn!"));
             return InteractionState.Failed;
         }
 
@@ -149,14 +120,15 @@ public class StoneWallSpell {
         holder.addComponent(ModelComponent.getComponentType(), new ModelComponent(model));
         BoundingBox box = new BoundingBox(model.getBoundingBox());
         holder.addComponent(BoundingBox.getComponentType(), box);
-        holder.addComponent(NetworkId.getComponentType(), new NetworkId(commandBuffer.getExternalData().takeNextNetworkId()));
+        holder.addComponent(NetworkId.getComponentType(),
+                new NetworkId(commandBuffer.getExternalData().takeNextNetworkId()));
         // Animation will be used when spawning the wall so we make a variable
         ActiveAnimationComponent activeAnimationComponent = new ActiveAnimationComponent();
         holder.addComponent(ActiveAnimationComponent.getComponentType(), activeAnimationComponent);
 
         // Create Collision Shape based on Wallshape
         CreateShape();
-        List<Vector2i> Wallshape = getShape(direction);
+        List<Vector2i> Wallshape = getShape(rotation.y());
         List<Vector3i> invisibleBlockPositions = new ArrayList<>();
         for (Vector2i v : Wallshape) { // For each position in the wall shape
             for (int y_add = -2; y_add < 3; y_add++) { // Wall height of 3 blocks (+2 under making it 5 blocks)
@@ -179,7 +151,7 @@ public class StoneWallSpell {
 
         holder.addComponent(
                 StoneWallComponent.getComponentType(),
-                new StoneWallComponent(8000, invisibleBlockPositions) // Wall lasts 8 seconds
+                new StoneWallComponent(durationMs, invisibleBlockPositions) // Wall lasts 8 seconds
         );
 
         // Interaction effect
