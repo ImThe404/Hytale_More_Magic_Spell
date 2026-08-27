@@ -32,9 +32,8 @@ public class PetrifySpell {
     public static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private static final String STONE_TEXTURE = "NPC/Textures/Petrified.png";
-    private static final int PETRIFY_DURATION_MS = 5000;
 
-    public static InteractionState CastSpell(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> target) {
+    public static InteractionState CastSpell(CommandBuffer<EntityStore> commandBuffer, Ref<EntityStore> target, int durationMs) {
 
         Store<EntityStore> store = commandBuffer.getExternalData().getStore();
         World world = commandBuffer.getExternalData().getWorld();
@@ -110,7 +109,7 @@ public class PetrifySpell {
         // Save and remove Original Entity
         Holder<EntityStore> originalHolder = EntityStore.REGISTRY.newHolder();
         commandBuffer.removeEntity(target, originalHolder, RemoveReason.UNLOAD);
-        PetrifiedComponent petrifiedComp = new PetrifiedComponent(PETRIFY_DURATION_MS, originalHolder);
+        PetrifiedComponent petrifiedComp = new PetrifiedComponent(durationMs, originalHolder);
         brainlessHolder.addComponent(PetrifiedComponent.getComponentType(), petrifiedComp); // add PetrifiedComponent to
                                                                                             // brainless entity
 

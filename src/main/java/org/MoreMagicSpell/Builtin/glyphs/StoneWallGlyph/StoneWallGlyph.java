@@ -2,14 +2,10 @@ package org.MoreMagicSpell.Builtin.glyphs.StoneWallGlyph;
 
 import org.MoreMagicSpell.Spells.StoneWallSpell;
 
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.riprod.hexcode.api.event.GlyphFizzleEvent;
+import com.riprod.hexcode.api.execution.HexExecuter;
+import com.riprod.hexcode.core.common.execution.context.HexContext;
 import com.riprod.hexcode.core.common.glyphs.component.Glyph;
 import com.riprod.hexcode.core.common.glyphs.component.GlyphHandler;
-import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
-import com.riprod.hexcode.core.state.execution.HexExecuter;
-import com.riprod.hexcode.core.state.execution.component.HexContext;
 import com.riprod.hexcode.utils.HexVarUtil;
 
 public class StoneWallGlyph implements GlyphHandler {
@@ -22,21 +18,19 @@ public class StoneWallGlyph implements GlyphHandler {
         if (target == null) {
             return;
         }
-        EntityVar entityVar = HexVarUtil.resolveEntityVar(target, hexContext);
-        if (entityVar == null) {
-            HexExecuter.fail(glyph, hexContext, GlyphFizzleEvent.Reason.HANDLER_FAILED,
-                    "Target must be an Entity");
-            return;
+        var rotationVar = glyph.readSlot(StoneWallSlots.ROTATION, hexContext, target);
+        var durationVar = glyph.readSlot(StoneWallSlots.DURATION, hexContext);
+        var duration = durationVar.toScalar();
+
+        if (duration == null) {
+            duration = 8d;
         }
 
-        Ref<EntityStore> originRef = entityVar.getRef(hexContext.getAccessor());
-        if (originRef == null || !originRef.isValid()) {
-            HexExecuter.fail(glyph, hexContext, GlyphFizzleEvent.Reason.HANDLER_FAILED,
-                    "Target is invalid");
-            return;
-        }
+        var position = HexVarUtil.resolvePositionVar(target, hexContext);
+        var rotation = HexVarUtil.resolveRotationVar(rotationVar, hexContext);
 
-        StoneWallSpell.CastSpell(hexContext.getAccessor(), originRef);
+        StoneWallSpell.CastSpell(hexContext.getAccessor(), position.getValue(), rotation.getValue(),
+                duration.intValue() * 1000);
 
         HexExecuter.continueFromSlot(glyph, Glyph.NEXT_SLOT, hexContext);
     }

@@ -1,7 +1,7 @@
 {
     "Group": "org.MoreMagicSpell",
     "Name": "More_Magic_Spell",
-    "Version": "1.1.2",
+    "Version": "1.4.0",
     "Description": "",
     "Authors": [
         {
@@ -11,19 +11,19 @@
             "Name": "Rirpod"
         }
     ],
-    "ServerVersion": ">=0.5.4",
+    "ServerVersion": ">=0.6.0",
     "Dependencies": {
-        "Hytale:AssetModule": "*"
+        
     },
     "OptionalDependencies": {
-        "Riprod:Hexcode": "^0.8.5",
+        "Riprod:Hexcode": "^0.10.0",
         "Riprod:Patchly": "*"
     },
     "DisabledByDefault": false,
     "Main": "org.MoreMagicSpell.MoreMagicSpell",
     "IncludesAssetPack": true,
-    "Website": "",
+    "Website": "https://modtale.net/mod/more-magic-spells",
     "UpdateChecker": {
-        "CurseForge": ""
+        "CurseForge": "1451167"
     }
 }

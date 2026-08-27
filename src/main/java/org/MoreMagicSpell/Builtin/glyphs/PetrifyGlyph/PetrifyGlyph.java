@@ -1,13 +1,12 @@
 package org.MoreMagicSpell.Builtin.glyphs.PetrifyGlyph;
 
 import org.MoreMagicSpell.Spells.PetrifySpell;
-import org.MoreMagicSpell.Spells.StoneWallSpell;
 
+import com.riprod.hexcode.api.execution.HexExecuter;
+import com.riprod.hexcode.core.common.execution.context.HexContext;
 import com.riprod.hexcode.core.common.glyphs.component.Glyph;
 import com.riprod.hexcode.core.common.glyphs.component.GlyphHandler;
 import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
-import com.riprod.hexcode.core.state.execution.HexExecuter;
-import com.riprod.hexcode.core.state.execution.component.HexContext;
 
 public class PetrifyGlyph implements GlyphHandler {
     public static final String ID = "Petrify";
@@ -18,9 +17,14 @@ public class PetrifyGlyph implements GlyphHandler {
         if (target == null) {
             return;
         }
+        var durationVar = glyph.readSlot(PetrifySlots.DURATION, hexContext);
+        var duration = durationVar.toScalar();
+        if (duration == null) {
+            duration = 5d;
+        }
 
         if (target instanceof EntityVar entityTarget) {
-            PetrifySpell.CastSpell(hexContext.getAccessor(), entityTarget.getRef(hexContext.getAccessor()));
+            PetrifySpell.CastSpell(hexContext.getAccessor(), entityTarget.getRef(hexContext.getAccessor()), duration.intValue() * 1000);
         }
 
         HexExecuter.continueFromSlot(glyph, Glyph.NEXT_SLOT, hexContext);

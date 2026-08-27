@@ -16,41 +16,42 @@
   "BasePower": 1.0,
   "ManaConsumption": 20,
   "ShapeStructure": [
+    "Square",
     {
-      "ShapeId": "Square",
-      "Size": 1.0
+      "Parent": "Square",
+      "RelativeSize": 0.8
     },
     {
-      "ShapeId": "Square",
-      "Size": 0.8
-    },
-    {
-      "ShapeId": "Circle",
-      "Size": 0.55
+      "Parent": "Circle",
+      "RelativeSize": 0.55
     }
   ],
   "Slots": {
-    "target": {
-      "Style": "Input",
+    "Target": {
+      "Parent": "Input",
       "Label": "hexcode.glyphs.StoneWall.target.name",
       "Description": "hexcode.glyphs.StoneWall.target.description"
     },
+    "Rotation": {
+      "Parent": "Input",
+      "Label": "hexcode.glyphs.StoneWall.rotation.name",
+      "Description": "hexcode.glyphs.StoneWall.rotation.description"
+    },
+    "Duration": {
+      "Parent": "Input",
+      "Label": "hexcode.glyphs.StoneWall.duration.name",
+      "Description": "hexcode.glyphs.StoneWall.duration.description",
+      "DefaultValue": 5,
+      "Unique": true
+    },
     "Next": {
-      "Style": "Next",
+      "Parent": "Next",
       "Label": "hexcode.glyphs.StoneWall.Next.name",
       "Description": "hexcode.glyphs.StoneWall.Next.description"
     }
   },
   "Volatility": {
     "InstantCost": 6,
-    "DrainPerSecond": 0.0,
-    "RepeatEscalation": {
-      "Base": 1.0,
-      "K": 5.0
-    },
-    "AreaTax": {
-      "DefaultMagnitude": 15.0,
-      "Exponent": 1.0
-    }
+    "DrainPerSecond": 0.0
   }
 }
