@@ -2,14 +2,10 @@ package org.MoreMagicSpell.Builtin.glyphs.StoneWallGlyph;
 
 import org.MoreMagicSpell.Spells.StoneWallSpell;
 
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.riprod.hexcode.api.event.GlyphFizzleEvent;
 import com.riprod.hexcode.api.execution.HexExecuter;
-import com.riprod.hexcode.core.common.execution.component.HexContext;
+import com.riprod.hexcode.core.common.execution.context.HexContext;
 import com.riprod.hexcode.core.common.glyphs.component.Glyph;
 import com.riprod.hexcode.core.common.glyphs.component.GlyphHandler;
-import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
 import com.riprod.hexcode.utils.HexVarUtil;
 
 public class StoneWallGlyph implements GlyphHandler {
